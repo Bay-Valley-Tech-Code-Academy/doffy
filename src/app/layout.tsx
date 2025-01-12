@@ -1,42 +1,26 @@
 import '~/styles/globals.css';
 
+import Link from 'next/link';
+
 import { CircleUserRound } from 'lucide-react';
 
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
+  NavigationMenuLink,
 } from '../components/ui/navigation-menu';
 
-import { 
-  Menubar,
-  MenubarMenu,
-  MenubarTrigger,
-  MenubarContent,
-  MenubarItem,
-  MenubarSeparator,
-  MenubarLabel,
-  MenubarCheckboxItem,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarPortal,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarGroup,
-  MenubarSub,
-  MenubarShortcut,
- } from '../components/ui/menubar';
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+} from '~/components/ui/dropdown-menu';
 
 import { GeistSans } from 'geist/font/sans';
-import { type Metadata } from "next";
-// import { DropdownMenu, DropdownMenuContent } from '@radix-ui/react-dropdown-menu';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuItem } from '~/components/ui/dropdown-menu';
+import { type Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Create T3 App',
@@ -48,12 +32,18 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} w-full h-full`}>
+    <html lang="en" className={`${GeistSans.variable} h-full w-full`}>
       <body className="w-full">
         <NavigationMenu className="p-3">
           <div className="w-full">
             <NavigationMenuList>
-              <div className="flex justify-end w-full">
+              <div className="flex w-full justify-between">
+                <NavigationMenuItem>
+                  <Link href="/" legacyBehavior passHref>
+                    <NavigationMenuLink>Home</NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
                 <NavigationMenuItem>
                   <DropdownMenu>
                     <DropdownMenuTrigger>
@@ -63,15 +53,21 @@ export default function RootLayout({
                     <DropdownMenuContent>
                       <DropdownMenuGroup>
                         <DropdownMenuItem>
-                          Profile
+                          <Link href="/profile" legacyBehavior passHref>
+                            <NavigationMenuLink>Profile</NavigationMenuLink>
+                          </Link>
                         </DropdownMenuItem>
 
                         <DropdownMenuItem>
-                          Saved Jobs
+                          <Link href="/saved-jobs" legacyBehavior passHref>
+                            <NavigationMenuLink>Saved jobs</NavigationMenuLink>
+                          </Link>
                         </DropdownMenuItem>
 
                         <DropdownMenuItem>
-                          Settings
+                          <Link href="/settings" legacyBehavior passHref>
+                            <NavigationMenuLink>Settings</NavigationMenuLink>
+                          </Link>
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
                     </DropdownMenuContent>
