@@ -52,23 +52,23 @@ export default function RootLayout({
 
                     <DropdownMenuContent>
                       <DropdownMenuGroup>
-                        <DropdownMenuItem>
-                          <Link href="/profile" legacyBehavior passHref>
+                        <Link href="/profile" legacyBehavior passHref>
+                          <DropdownMenuItem>
                             <NavigationMenuLink>Profile</NavigationMenuLink>
-                          </Link>
-                        </DropdownMenuItem>
+                          </DropdownMenuItem>
+                        </Link>
 
-                        <DropdownMenuItem>
-                          <Link href="/saved-jobs" legacyBehavior passHref>
+                        <Link href="/saved-jobs" legacyBehavior passHref>
+                          <DropdownMenuItem>
                             <NavigationMenuLink>Saved jobs</NavigationMenuLink>
-                          </Link>
-                        </DropdownMenuItem>
+                          </DropdownMenuItem>
+                        </Link>
 
-                        <DropdownMenuItem>
-                          <Link href="/settings" legacyBehavior passHref>
+                        <Link href="/settings" legacyBehavior passHref>
+                          <DropdownMenuItem>
                             <NavigationMenuLink>Settings</NavigationMenuLink>
-                          </Link>
-                        </DropdownMenuItem>
+                          </DropdownMenuItem>
+                        </Link>
                       </DropdownMenuGroup>
                     </DropdownMenuContent>
                   </DropdownMenu>
