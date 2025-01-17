@@ -9,12 +9,13 @@ import {
     DropdownMenuTrigger,
   } from "../../components/ui/dropdown-menu"
 import PlaceHolderImage from './assets/PlaceHolderImage'
+import type { Job } from './placeHolderData'
 
-export default function SavedJob({jobTitle, company, location, savedDate, companyImage}) {
+export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Job) {
     return (
         <div className='flex gap-2 p-2'>
             <div className='p-2'>
-                {companyImage ? <Image src={companyImage} /> : <PlaceHolderImage height={25} width={25}/>}
+                {companyImage ? <Image src={companyImage} alt={`${company} business logo.`} /> : <PlaceHolderImage height={25} width={25}/>}
             </div>
 
             <div className='flex flex-col'>
