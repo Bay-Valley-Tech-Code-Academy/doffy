@@ -29,56 +29,26 @@ export const appliedJobsArr: Array<Job> = [
         savedDate: "Saved Yesterday"
     },
     {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
+        jobTitle: "React Props Designed",
+        company: "React Studio",
         location: "Modesto, CA",
         savedDate: "Saved Yesterday"
     },
     {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
+        jobTitle: "React State Handler",
+        company: "React Studio",
         location: "Modesto, CA",
         savedDate: "Saved Yesterday"
     },
     {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
+        jobTitle: "React Effects Designed",
+        company: "React Studio",
         location: "Modesto, CA",
         savedDate: "Saved Yesterday"
     },
     {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
-        location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
-    },
-    {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
-        location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
-    },
-    {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
-        location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
-    },
-    {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
-        location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
-    },
-    {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
-        location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
-    },
-    {
-        jobTitle: "NextJS Web Designed",
-        company: "NextJS Studio",
+        jobTitle: "TypeScript Developer",
+        company: "TypeScript Studio",
         location: "Modesto, CA",
         savedDate: "Saved Yesterday"
     },
