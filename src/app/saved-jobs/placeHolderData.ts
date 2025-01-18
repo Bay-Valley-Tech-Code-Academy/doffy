@@ -67,8 +67,8 @@ export const jobsArr: Array<Job> = [
 ]
 
 export const jobsAmounts = {
-    savedJobs: jobsArr.filter(job => job.savedLocation == "Saved").length,
-    appliedJobs: jobsArr.filter(job => job.savedLocation == "Applied").length,
-    interviewsJobs: jobsArr.filter(job => job.savedLocation == "Interviews").length,
-    archivedJobs: jobsArr.filter(job => job.savedLocation == "Archived").length,
+    savedJobs: jobsArr.filter(job => job.savedLocation === "Saved").length,
+    appliedJobs: jobsArr.filter(job => job.savedLocation === "Applied").length,
+    interviewsJobs: jobsArr.filter(job => job.savedLocation === "Interviews").length,
+    archivedJobs: jobsArr.filter(job => job.savedLocation === "Archived").length,
 }

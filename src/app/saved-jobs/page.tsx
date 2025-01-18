@@ -11,7 +11,7 @@ import { jobsArr, jobsAmounts } from './placeHolderData';
 export default function SavedJobsPage() {
   const [currentTab, setCurrentTab] = useState<string>('Saved');
   const filteredArray: Array<Job> = jobsArr.filter(
-    (job) => job.savedLocation == currentTab,
+    (job) => job.savedLocation === currentTab,
   );
 
   return (
@@ -21,28 +21,28 @@ export default function SavedJobsPage() {
           <h2 className="self-start text-4xl sm:text-5xl font-extrabold">Bookmarked Jobs</h2>
           <div className="flex gap-2 md:gap-3 border border-b-4 border-transparent border-b-inherit p-1">
             <ButtonWithBadge
-              isTextBold={currentTab == 'Saved'}
+              isTextBold={currentTab === 'Saved'}
               badgeText={jobsAmounts.savedJobs}
               onClick={() => setCurrentTab('Saved')}
             >
               Saved
             </ButtonWithBadge>
             <ButtonWithBadge
-              isTextBold={currentTab == 'Applied'}
+              isTextBold={currentTab === 'Applied'}
               badgeText={jobsAmounts.appliedJobs}
               onClick={() => setCurrentTab('Applied')}
             >
               Applied
             </ButtonWithBadge>
             <ButtonWithBadge
-              isTextBold={currentTab == 'Interviews'}
+              isTextBold={currentTab === 'Interviews'}
               badgeText={jobsAmounts.interviewsJobs}
               onClick={() => setCurrentTab('Interviews')}
             >
               Interviews
             </ButtonWithBadge>
             <ButtonWithBadge
-              isTextBold={currentTab == 'Archived'}
+              isTextBold={currentTab === 'Archived'}
               badgeText={jobsAmounts.archivedJobs}
               onClick={() => setCurrentTab('Archived')}
             >
