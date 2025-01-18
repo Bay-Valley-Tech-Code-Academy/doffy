@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { ScrollArea } from '../../components/ui/scroll-area';
-import SavedJob from './components/SavedJob';
-import ButtonWithBadge from './components/ButtonWithBadge';
+import SavedJob from './components/saved-job';
+import ButtonWithBadge from './components/button-with-badge';
 import { useState } from 'react';
 
 import type { Job } from './placeHolderData';

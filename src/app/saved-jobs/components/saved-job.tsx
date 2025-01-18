@@ -8,7 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "../../../components/ui/dropdown-menu"
-import PlaceHolderImage from '../assets/PlaceHolderImage'
+import PlaceHolderImage from '../assets/place-holder-image'
 import type { Job } from '../placeHolderData'
 
 export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Omit<Job, "savedLocation">) {
