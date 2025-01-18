@@ -13,7 +13,7 @@ import type { Job } from './placeHolderData'
 
 export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Omit<Job, "savedLocation">) {
     return (
-        <div className='flex gap-2 p-2'>
+        <div className='flex gap-2 p-2 w-full'>
             <div className='p-2'>
                 {companyImage ? <Image src={companyImage} alt={`${company} business logo.`} /> : <PlaceHolderImage height={25} width={25}/>}
             </div>
@@ -25,8 +25,8 @@ export default function SavedJob({jobTitle, company, location, savedDate, compan
                 <h4 className='text-sm font-extralight'>{savedDate}</h4>
             </div>
 
-            <div className='ms-auto flex content-center items-start gap-2 p-2'>
-                <Button>Apply Now</Button>
+            <div className='ms-auto flex content-center items-start gap-1 sm:gap-2 p-2'>
+                <Button className='p-1 sm:p-2'>Apply Now</Button>
                 <Button className='text-extrabold text-xl text-white'>S</Button>
                 <DropdownMenu>
                 <DropdownMenuTrigger className='text-lg font-bold h-auto'>...</DropdownMenuTrigger>
