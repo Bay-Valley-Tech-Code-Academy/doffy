@@ -11,7 +11,7 @@ import {
 import PlaceHolderImage from './assets/PlaceHolderImage'
 import type { Job } from './placeHolderData'
 
-export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Job) {
+export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Omit<Job, "savedLocation">) {
     return (
         <div className='flex gap-2 p-2'>
             <div className='p-2'>

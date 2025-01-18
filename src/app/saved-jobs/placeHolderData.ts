@@ -3,66 +3,72 @@ export type Job = {
     company: string;
     location: string;
     savedDate: string;
+    savedLocation: string;
     companyImage?: string;
 }
 
-export const savedJobsArr: Array<Job> = [
+export const jobsArr: Array<Job> = [
     {
         jobTitle: "React Dev",
         company: "Some Company",
         location: "Modesto, CA",
-        savedDate: "Saved Today"
+        savedDate: "Saved Today",
+        savedLocation: "Saved"
     },
     {
         jobTitle: "Web Dev",
         company: "WebDevelopment Inc",
         location: "Riverbank, CA",
-        savedDate: "Saved Yesterday"
+        savedDate: "Saved Yesterday",
+        savedLocation: "Saved"
     },
-]
-
-export const appliedJobsArr: Array<Job> = [
     {
         jobTitle: "NextJS Web Designed",
         company: "NextJS Studio",
         location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
+        savedDate: "Saved Yesterday",
+        savedLocation: "Applied"
     },
     {
         jobTitle: "React Props Designed",
         company: "React Studio",
         location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
+        savedDate: "Saved Yesterday",
+        savedLocation: "Applied"
     },
     {
         jobTitle: "React State Handler",
         company: "React Studio",
         location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
+        savedDate: "Saved Yesterday",
+        savedLocation: "Applied"
     },
     {
         jobTitle: "React Effects Designed",
         company: "React Studio",
         location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
+        savedDate: "Saved Yesterday",
+        savedLocation: "Applied"
     },
     {
         jobTitle: "TypeScript Developer",
         company: "TypeScript Studio",
         location: "Modesto, CA",
-        savedDate: "Saved Yesterday"
+        savedDate: "Saved Yesterday",
+        savedLocation: "Applied"
     },
-]
-
-export const interviewJobsArr: Array<Job> = [
-
-]
-
-export const archivedJobsArr: Array<Job> = [
     {
         jobTitle: "HTML Web Developer",
         company: "HTML Development Studios",
         location: "Riverbank, CA",
-        savedDate: "Saved Last Week"
-    },
+        savedDate: "Saved Last Week",
+        savedLocation: "Archived"
+    }
 ]
+
+export const jobsAmounts = {
+    savedJobs: jobsArr.filter(job => job.savedLocation == "Saved").length,
+    appliedJobs: jobsArr.filter(job => job.savedLocation == "Applied").length,
+    interviewsJobs: jobsArr.filter(job => job.savedLocation == "Interviews").length,
+    archivedJobs: jobsArr.filter(job => job.savedLocation == "Archived").length,
+}
