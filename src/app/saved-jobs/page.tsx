@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { ScrollArea } from '../../components/ui/scroll-area';
-import SavedJob from './SavedJob';
-import ButtonWithBadge from './ButtonWithBadge';
+import SavedJob from './components/SavedJob';
+import ButtonWithBadge from './components/ButtonWithBadge';
 import { useState } from 'react';
 
 import type { Job } from './placeHolderData';
@@ -50,7 +50,8 @@ export default function SavedJobsPage() {
             </ButtonWithBadge>
           </div>
         </div>
-        <ScrollArea className="container h-96 w-full">
+       {filteredArray.length > 0 ?  
+       <ScrollArea className="container h-72 md:h-96 w-full">
           {filteredArray.map((job) => (
             <SavedJob
               key={job.jobTitle}
@@ -61,7 +62,8 @@ export default function SavedJobsPage() {
               companyImage={job.companyImage}
             />
           ))}
-        </ScrollArea>
+        </ScrollArea> : 
+        <Link href={'/'} className='mt-3'>Find More Jobs</Link> }
       </div>
     </main>
   );

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import {Button} from '../../components/ui/button'
+import {Button} from '../../../components/ui/button'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -7,9 +7,9 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-  } from "../../components/ui/dropdown-menu"
-import PlaceHolderImage from './assets/PlaceHolderImage'
-import type { Job } from './placeHolderData'
+  } from "../../../components/ui/dropdown-menu"
+import PlaceHolderImage from '../assets/PlaceHolderImage'
+import type { Job } from '../placeHolderData'
 
 export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Omit<Job, "savedLocation">) {
     return (
