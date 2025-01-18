@@ -1,4 +1,9 @@
-export default function PlaceHolderImage({height, width}) {
+interface ImageProps {
+    height: number;
+    width: number;
+} 
+
+export default function PlaceHolderImage({height, width}: ImageProps) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" height={height} width={width}>
             {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}

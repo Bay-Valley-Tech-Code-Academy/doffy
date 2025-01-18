@@ -4,6 +4,7 @@ import { ScrollArea } from '../../components/ui/scroll-area';
 import SavedJob from './components/saved-job';
 import ButtonWithBadge from './components/button-with-badge';
 import { useState } from 'react';
+import type { ReactElement } from 'react';
 
 import type { Job } from './placeHolderData';
 import { jobsArr, jobsAmounts } from './placeHolderData';
@@ -13,6 +14,23 @@ export default function SavedJobsPage() {
   const filteredArray: Array<Job> = jobsArr.filter(
     (job) => job.savedLocation === currentTab,
   );
+
+  function renderSavedJobs(): ReactElement {
+    return filteredArray.length > 0 ?  
+        <ScrollArea className="container h-72 md:h-96 w-full">
+          {filteredArray.map((job) => (
+            <SavedJob
+              key={job.jobTitle}
+              jobTitle={job.jobTitle}
+              company={job.company}
+              location={job.location}
+              savedDate={job.savedDate}
+              companyImage={job.companyImage}
+            />
+          ))}
+        </ScrollArea> :
+        <Link href={'/'} className='mt-3'>Find More Jobs</Link>
+    }
 
   return (
     <main className='flex justify-center h-full'>
@@ -50,20 +68,7 @@ export default function SavedJobsPage() {
             </ButtonWithBadge>
           </div>
         </div>
-       {filteredArray.length > 0 ?  
-       <ScrollArea className="container h-72 md:h-96 w-full">
-          {filteredArray.map((job) => (
-            <SavedJob
-              key={job.jobTitle}
-              jobTitle={job.jobTitle}
-              company={job.company}
-              location={job.location}
-              savedDate={job.savedDate}
-              companyImage={job.companyImage}
-            />
-          ))}
-        </ScrollArea> : 
-        <Link href={'/'} className='mt-3'>Find More Jobs</Link> }
+        {renderSavedJobs()}
       </div>
     </main>
   );
