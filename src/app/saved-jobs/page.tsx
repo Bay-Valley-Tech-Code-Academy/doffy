@@ -15,10 +15,10 @@ export default function SavedJobsPage() {
   );
 
   return (
-    <main>
-      <div className="flex h-full flex-col items-center justify-center gap-3 px-4 py-16">
+    <main className='flex justify-center h-full'>
+      <div className="flex w-full sm:w-3/4 md:1/2 h-full flex-col items-center justify-center gap-3 px-4 py-16">
         <div className="container flex flex-col gap-3">
-          <h2 className="self-start text-4xl font-extrabold">My Jobs</h2>
+          <h2 className="self-start text-4xl sm:text-5xl font-extrabold">Bookmarked Jobs</h2>
           <div className="flex gap-2 md:gap-3 border border-b-4 border-transparent border-b-inherit p-1">
             <ButtonWithBadge
               isTextBold={currentTab == 'Saved'}

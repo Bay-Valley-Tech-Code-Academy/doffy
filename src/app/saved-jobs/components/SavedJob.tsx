@@ -19,10 +19,10 @@ export default function SavedJob({jobTitle, company, location, savedDate, compan
             </div>
 
             <div className='flex flex-col'>
-                <h3 className='font-bold'>{jobTitle}</h3>
-                <h4 className='text-sm'>{company}</h4>
-                <h4 className='text-sm'>{location}</h4>
-                <h4 className='text-sm font-extralight'>{savedDate}</h4>
+                <h3 className='text-base sm:text-xl font-bold'>{jobTitle}</h3>
+                <h4 className='text-sm sm:text-base'>{company}</h4>
+                <h4 className='text-sm sm:text-base'>{location}</h4>
+                <h4 className='text-sm sm:text-sm font-extralight'>{savedDate}</h4>
             </div>
 
             <div className='ms-auto flex content-center items-start gap-1 sm:gap-2 p-2'>
