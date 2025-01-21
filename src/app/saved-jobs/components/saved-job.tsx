@@ -10,18 +10,17 @@ import {
   } from "../../../components/ui/dropdown-menu"
 import PlaceHolderImage from '../assets/place-holder-image'
 import type { Job } from '../placeHolderData'
-import type { ReactElement } from 'react'
 
 export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Omit<Job, "savedLocation">) {
 
-    function renderCompanyImage(): ReactElement {
+    const RenderCompanyImage = (): JSX.Element => {
         return companyImage ? <Image src={companyImage} alt={`${company} business logo.`} /> : <PlaceHolderImage height={25} width={25}/>
     }
 
     return (
         <div className='flex gap-2 p-2 w-full'>
             <div className='p-2'>
-                {renderCompanyImage()}
+                <RenderCompanyImage />
             </div>
 
             <div className='flex flex-col'>

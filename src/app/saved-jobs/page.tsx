@@ -4,7 +4,6 @@ import { ScrollArea } from '../../components/ui/scroll-area';
 import SavedJob from './components/saved-job';
 import ButtonWithBadge from './components/button-with-badge';
 import { useState } from 'react';
-import type { ReactElement } from 'react';
 
 import type { Job } from './placeHolderData';
 import { jobsArr, jobsAmounts } from './placeHolderData';
@@ -15,7 +14,7 @@ export default function SavedJobsPage() {
     (job) => job.savedLocation === currentTab,
   );
 
-  function renderSavedJobs(): ReactElement {
+  const RenderSavedJobs = (): JSX.Element => {
     return filteredArray.length > 0 ?  
         <ScrollArea className="container h-72 md:h-96 w-full">
           {filteredArray.map((job) => (
@@ -68,7 +67,8 @@ export default function SavedJobsPage() {
             </ButtonWithBadge>
           </div>
         </div>
-        {renderSavedJobs()}
+        
+        <RenderSavedJobs />
       </div>
     </main>
   );
