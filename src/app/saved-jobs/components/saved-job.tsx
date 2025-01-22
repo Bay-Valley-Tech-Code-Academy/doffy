@@ -8,13 +8,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "../../../components/ui/dropdown-menu"
-import PlaceHolderImage from '../assets/place-holder-image'
+import { Building2 } from 'lucide-react';
 import type { Job } from '../placeHolderData'
 
 export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Omit<Job, "savedLocation">) {
 
     const RenderCompanyImage = (): JSX.Element => {
-        return companyImage ? <Image src={companyImage} alt={`${company} business logo.`} /> : <PlaceHolderImage height={25} width={25}/>
+        return companyImage ? <Image src={companyImage} alt={`${company} business logo.`} /> : <Building2 height={25} width={25}/>
     }
 
     return (
