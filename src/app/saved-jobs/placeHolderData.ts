@@ -58,12 +58,61 @@ export const jobsArr: Array<Job> = [
         savedLocation: "Applied"
     },
     {
-        jobTitle: "HTML Web Developer",
+        jobTitle: "HTML Developer",
         company: "HTML Development Studios",
         location: "Riverbank, CA",
         savedDate: "Saved Last Week",
         savedLocation: "Archived"
-    }
+    },
+    {
+        jobTitle: "HTML Dev #1",
+        company: "HTML Development Studios",
+        location: "Riverbank, CA",
+        savedDate: "Saved Last Week",
+        savedLocation: "Archived"
+    },
+    {
+        jobTitle: "HTML Dev #2",
+        company: "HTML Development Studios",
+        location: "Riverbank, CA",
+        savedDate: "Saved Last Week",
+        savedLocation: "Archived"
+    },
+    {
+        jobTitle: "HTML Dev #3",
+        company: "HTML Development Studios",
+        location: "Riverbank, CA",
+        savedDate: "Saved Last Week",
+        savedLocation: "Archived"
+    },
+    {
+        jobTitle: "HTML Dev #4",
+        company: "HTML Development Studios",
+        location: "Riverbank, CA",
+        savedDate: "Saved Last Week",
+        savedLocation: "Archived"
+    },
+    {
+        jobTitle: "HTML Dev #5",
+        company: "HTML Development Studios",
+        location: "Riverbank, CA",
+        savedDate: "Saved Last Week",
+        savedLocation: "Archived"
+    },
+    {
+        jobTitle: "HTML Dev #6",
+        company: "HTML Development Studios",
+        location: "Riverbank, CA",
+        savedDate: "Saved Last Week",
+        savedLocation: "Archived"
+    },
+    {
+        jobTitle: "HTML Dev #7",
+        company: "HTML Development Studios",
+        location: "Riverbank, CA",
+        savedDate: "Saved Last Week",
+        savedLocation: "Archived"
+    },
 ]
 
 type JobsAmounts = {
