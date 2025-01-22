@@ -66,9 +66,13 @@ export const jobsArr: Array<Job> = [
     }
 ]
 
-export const jobsAmounts = {
-    savedJobs: jobsArr.filter(job => job.savedLocation === "Saved").length,
-    appliedJobs: jobsArr.filter(job => job.savedLocation === "Applied").length,
-    interviewsJobs: jobsArr.filter(job => job.savedLocation === "Interviews").length,
-    archivedJobs: jobsArr.filter(job => job.savedLocation === "Archived").length,
+type JobsAmounts = {
+    [key: string]: number;
+}
+
+export const jobsAmounts: JobsAmounts = {
+    Saved: jobsArr.filter(job => job.savedLocation === "Saved").length,
+    Applied: jobsArr.filter(job => job.savedLocation === "Applied").length,
+    Interviews: jobsArr.filter(job => job.savedLocation === "Interviews").length,
+    Archived: jobsArr.filter(job => job.savedLocation === "Archived").length,
 }
