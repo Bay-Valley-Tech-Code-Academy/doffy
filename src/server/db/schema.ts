@@ -2,7 +2,7 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import { sql } from 'drizzle-orm';
-import { index, integer, pgTableCreator, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { index, integer, pgTableCreator, text, varchar, timestamp } from 'drizzle-orm/pg-core';
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -19,6 +19,8 @@ export const users = createTable(
     firstName: varchar('first_name', { length: 256 }),
     lastName: varchar('last_name', { length: 256 }),
     email: varchar('email', { length: 256 }),
+    // We use the `text` data type but we will still hash the password when we store it
+    password: text('password').notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull()
