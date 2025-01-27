@@ -13,7 +13,7 @@ export default function JobsList({filter}: JobsListProps) {
 
     return (
         filteredArray.length > 0 ? (
-        <ScrollArea className="container h-full w-full md:h-96">
+        <ScrollArea className="container h-full w-full">
         {filteredArray.map((job): JSX.Element => (
             <SavedJob
             key={job.jobTitle}
