@@ -8,8 +8,8 @@ export default function JobTabs() {
   const RenderTriggerTabs = () => {
     return tabsArray.map((tab) => (
       <TabsTrigger key={`Trigger-${tab}`} value={tab} className='flex flex-col'>
-        <p className='self-start text-md'>{jobsAmounts[tab]}</p>
-        <p className='text-xl'>{tab}</p>
+        <p className='self-start text-md md:text-lg'>{jobsAmounts[tab]}</p>
+        <p className='text-md md:text-lg lg:text-2xl'>{tab}</p>
       </TabsTrigger>
     ));
   };
@@ -24,7 +24,7 @@ export default function JobTabs() {
   return (
       <Tabs defaultValue="Saved" className='w-full h-full'>
         <div className='w-full h-auto border border-b-4 border-transparent border-b-inherit p-2'>
-            <TabsList className='h-fit'>
+            <TabsList className='h-fit w-fit'>
               <RenderTriggerTabs />
             </TabsList>
         </div>
