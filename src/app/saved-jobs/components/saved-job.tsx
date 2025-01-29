@@ -11,7 +11,7 @@ import {
 import { Building2 } from 'lucide-react';
 import type { Job } from '../placeHolderData'
 
-export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Omit<Job, "savedLocation">) {
+export default function SavedJob({jobTitle, company, location, savedDate, companyImage}: Job) {
 
     const RenderCompanyImage = (): JSX.Element => {
         return companyImage ? <Image src={companyImage} alt={`${company} business logo.`} /> : <Building2 height={25} width={25}/>

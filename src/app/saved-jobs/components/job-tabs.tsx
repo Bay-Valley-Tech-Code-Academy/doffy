@@ -3,7 +3,7 @@ import { jobsAmounts } from '../placeHolderData';
 import JobsList from './jobs-list';
 
 export default function JobTabs() {
-  const tabsArray: Array<string> = ['Saved', 'Applied', 'Interviews', 'Archived'];
+  const tabsArray: string[] = ['Saved', 'Applied', 'Interviews', 'Archived'];
   
   const RenderTriggerTabs = () => {
     return tabsArray.map((tab: string) => (

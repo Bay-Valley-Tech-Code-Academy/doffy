@@ -3,11 +3,11 @@ export type Job = {
   company: string;
   location: string;
   savedDate: string;
-  savedLocation: string;
+  savedLocation?: string;
   companyImage?: string;
 };
 
-export const jobsArr: Array<Job> = [
+export const jobsArr: Job[] = [
   {
     jobTitle: 'React Dev',
     company: 'Some Company',

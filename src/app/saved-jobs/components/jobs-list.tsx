@@ -9,7 +9,7 @@ interface JobsListProps {
 }
 
 export default function JobsList({filter}: JobsListProps) {
-    const filteredArray: Array<Job> = jobsArr.filter((job) => job.savedLocation === filter);
+    const filteredArray: Job[] = jobsArr.filter((job) => job.savedLocation === filter);
 
     return (
         filteredArray.length > 0 ? (
