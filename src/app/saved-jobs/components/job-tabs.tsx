@@ -16,7 +16,7 @@ export default function JobTabs() {
 
   const RenderContentTabs = () => {
     return tabsArray.map((tab) => (
-        <TabsContent key={`Content-${tab}`} value={tab} className='h-[calc(100%-7rem)]'>
+        <TabsContent key={`Content-${tab}`} value={tab} className='h-[calc(100%-5rem)] md:h-[calc(100%-7rem)]'>
             <JobsList filter={tab} />
         </TabsContent>))
   }
