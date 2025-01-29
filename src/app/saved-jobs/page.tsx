@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import JobTabs from './components/job-tabs';
 
 export default function SavedJobsPage() {

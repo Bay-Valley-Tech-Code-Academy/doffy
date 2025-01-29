@@ -6,7 +6,7 @@ export default function JobTabs() {
   const tabsArray: Array<string> = ['Saved', 'Applied', 'Interviews', 'Archived'];
   
   const RenderTriggerTabs = () => {
-    return tabsArray.map((tab) => (
+    return tabsArray.map((tab: string) => (
       <TabsTrigger key={`Trigger-${tab}`} value={tab} className='flex flex-col'>
         <p className='self-start text-md md:text-lg'>{jobsAmounts[tab]}</p>
         <p className='text-md md:text-lg lg:text-2xl'>{tab}</p>
