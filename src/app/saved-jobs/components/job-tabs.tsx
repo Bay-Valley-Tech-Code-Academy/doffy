@@ -16,7 +16,7 @@ export default function JobTabs() {
 
   const RenderContentTabs = () => {
     return tabsArray.map((tab) => (
-        <TabsContent key={`Content-${tab}`} value={tab} className='h-5/6'>
+        <TabsContent key={`Content-${tab}`} value={tab} className='h-[calc(100%-7rem)]'>
             <JobsList filter={tab} />
         </TabsContent>))
   }
@@ -24,7 +24,7 @@ export default function JobTabs() {
   return (
       <Tabs defaultValue="Saved" className='w-full h-full'>
         <div className='w-full h-auto border border-b-4 border-transparent border-b-inherit p-2'>
-            <TabsList className='h-fit w-fit'>
+            <TabsList className='h-14 md:h-20 w-fit'>
               <RenderTriggerTabs />
             </TabsList>
         </div>
