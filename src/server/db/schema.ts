@@ -2,7 +2,7 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import { sql } from 'drizzle-orm';
-import { index, integer, pgTableCreator, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { index, integer, pgTableCreator, text, varchar, timestamp } from 'drizzle-orm/pg-core';
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -12,19 +12,20 @@ import { index, integer, pgTableCreator, timestamp, varchar } from 'drizzle-orm/
  */
 export const createTable = pgTableCreator((name) => `doffy_${name}`);
 
-export const posts = createTable(
-  'post',
+export const users = createTable(
+  'user',
   {
     id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
-    name: varchar('name', { length: 256 }),
+    firstName: varchar('first_name', { length: 256 }),
+    lastName: varchar('last_name', { length: 256 }),
+    email: varchar('email', { length: 256 }),
+    // We use the `text` data type but we will still hash the password when we store it
+    password: text('password').notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(
-      () => new Date(),
-    ),
+      .notNull()
   },
   (example) => ({
-    nameIndex: index('name_idx').on(example.name),
+    emailIndex: index('email_idx').on(example.email),
   }),
 );
