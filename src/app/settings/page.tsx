@@ -1,6 +1,8 @@
 import Link from 'next/link';
-import AccountIcon from './assets/account-icon';
+import { LogOut, User } from 'lucide-react';
 import { Button } from '~/components/ui/button';
+import { Separator } from '~/components/ui/separator';
+import { SignOutButton } from '~/components/ui/signout-button';
 
 export default function SettingsPage() {
   interface AccountSettingsData {
@@ -28,7 +30,7 @@ export default function SettingsPage() {
                 <li>
                   <a className="flex flex-row" href="">
                     <div className="self-center">
-                      <AccountIcon />
+                      <User />
                     </div>
                     <div className="flex flex-col gap-2 p-4 text-lg">
                       <h2 className="font-bold">Account Information</h2>
@@ -41,9 +43,9 @@ export default function SettingsPage() {
           </nav>
         </div>
         <div className="flex h-full flex-[2] flex-col p-11">
-          <div className="flex h-full flex-col justify-around">
+          <div className="flex flex-col justify-around gap-11">
             <h1 className="text-2xl font-bold">Account Settings</h1>
-            <span className="my-4 border-t border-gray-300"></span>
+
             <div className="flex flex-row justify-between">
               <div>
                 <h3 className="font-bold">Account Type:</h3>
@@ -53,7 +55,7 @@ export default function SettingsPage() {
                 <Button>Change account type</Button>
               </div>
             </div>
-            <span className="my-4 border-t border-gray-300"></span>
+            <Separator />
             <div className="flex flex-row justify-between">
               <div>
                 <h3 className="font-bold">Email:</h3>
@@ -61,12 +63,11 @@ export default function SettingsPage() {
               </div>
               <div>
                 <div className="flex flex-col gap-2">
-                  <Button>Verify email address</Button>
                   <Button>Change email address</Button>
                 </div>
               </div>
             </div>
-            <span className="my-4 border-t border-gray-300"></span>
+            <Separator />
             <div className="flex flex-row justify-between">
               <div>
                 <h3 className="font-bold">Phone Number:</h3>
@@ -76,6 +77,17 @@ export default function SettingsPage() {
                 <Button>Change Phone Number</Button>
               </div>
             </div>
+            <Separator />
+            <div className="flex flex-row justify-between">
+              <div>
+                <h3 className="text-gray-400">markescosura24bvt@gmail.com</h3>
+              </div>
+
+              <div>
+                <SignOutButton href="/" />
+              </div>
+            </div>
+            <Separator />
           </div>
         </div>
       </div>
