@@ -2,12 +2,11 @@ import { NextResponse } from 'next/server';
 
 import { ResponseBuilder } from '../../../../lib/response-builder';
 
-import { startIndeedScrape } from '~/scrapes/indeed';
+import { scrapeIndeed } from '~/scrapes/indeed';
 
-export const POST = async () => {
+export const GET = async () => {
   try {
-    
-    const indeedResults = await startIndeedScrape()
+    const indeedResults = await scrapeIndeed();
 
     return new NextResponse(ResponseBuilder({ data: indeedResults, success: true }));
   } catch (err) {
@@ -22,7 +21,7 @@ export const POST = async () => {
 // {
 //   "crons": [
 //     {
-//       "path": "/api/hello",
+//       "path": "/api/cron/job-scrape",
 //       "schedule": "0 3 * * *"
 //     }
 //   ]

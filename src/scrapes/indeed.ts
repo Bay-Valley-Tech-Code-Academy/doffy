@@ -1,39 +1,49 @@
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+// https://medium.com/@seotanvirbd/scraping-indeed-com-a-step-by-step-guide-using-playwright-and-beautifulsoup-bcd55ac921d2
 
-puppeteer.use(StealthPlugin());
+import { chromium } from 'playwright';
 
-const startIndeedScrape = async () => {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+const userAgent =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
 
-  await page.setViewport({ width: 800, height: 600 });
+const scrapeIndeed = async () => {
+  const browser = await chromium.launch({
+    headless: false,
+  });
 
-  console.log('Starting indeed scrape');
+  try {
+    const context = await browser.newContext({ userAgent });
+    await context.addInitScript(
+      "Object.defineProperty(navigator, 'webdriver', { get: () => undefined })",
+    );
+    const page = await context.newPage();
 
-  await page.goto('https://developer.chrome.com/');
+    await page.goto(
+      `https://www.indeed.com/q-junior-full-stack-developer-jobs.html?vjk=5146d61fb228626c`,
+    );
 
-  // Set screen size.
-  await page.setViewport({width: 1080, height: 1024});
+    // Should use page.locator functions instead
+    await page.waitForTimeout(1000);
 
-  // Type into search box.
-  await page.locator('.devsite-search-field').fill('automate beyond recorder');
+    console.log('Dom content loaded');
 
-  // Wait and click on first result.
-  await page.locator('.devsite-result-item-link').click();
+    await page
+      .locator(
+        '#jobsearch-ViewjobPaneWrapper > div.fastviewjob.jobsearch-ViewJobLayout--embedded.css-1sis433.eu4oa1w0.hydrated > div.jobsearch-JobComponent.css-1kw92ky.eu4oa1w0 > div.jobsearch-HeaderContainer.css-1obbpc8.eu4oa1w0',
+      )
+      .waitFor({ state: 'visible' })
+      .then(async () => {
+        const viewedPostingTitle = await page.$eval(
+          '#jobsearch-ViewjobPaneWrapper > div.fastviewjob.jobsearch-ViewJobLayout--embedded.css-1sis433.eu4oa1w0.hydrated > div.jobsearch-JobComponent.css-1kw92ky.eu4oa1w0 > div.jobsearch-HeaderContainer.css-1obbpc8.eu4oa1w0 > div > div.css-1i8duct.e37uo190 > div > h2',
+          (el) => el.innerHTML,
+        );
+        console.log('viewedPostingTitle', viewedPostingTitle);
+      });
 
-  // Locate the full title with a unique string.
-  const textSelector = await page
-    .locator('text/Customize and automate')
-    .waitHandle();
-  const fullTitle = await textSelector?.evaluate(el => el.textContent);
+    await browser.close();
+  } catch (err) {
+    console.error('[ERROR]: scrapeIndeed', err);
+    await browser.close();
+  }
+};
 
-  // Print the full title.
-  console.log('The title of this blog post is "%s".', fullTitle);
-
-  await browser.close();
-
-  return `The title of this blog post is ${fullTitle}.`;
-}
-
-export { startIndeedScrape }
+export { scrapeIndeed };
