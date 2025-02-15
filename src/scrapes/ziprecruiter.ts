@@ -1,7 +1,4 @@
-import { chromium } from 'playwright';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-
-// Enables playwright extra to utilize the stealth plugin.
+import { chromium } from "playwright";
 
 // Provides a user agent to the browser in multiple ways to appear less like a bot.
 const userAgent =
