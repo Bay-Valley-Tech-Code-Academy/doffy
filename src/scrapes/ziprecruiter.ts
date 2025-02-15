@@ -1,58 +1,58 @@
-import { chromium } from "playwright-extra";
-import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import { chromium } from 'playwright';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 // Enables playwright extra to utilize the stealth plugin.
-chromium.use(StealthPlugin());
 
 // Provides a user agent to the browser in multiple ways to appear less like a bot.
-const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
+const userAgent =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
 const userAgentHTTPHeaders = {
   'Accept-Language': 'en-US,en;q=0.9',
 };
 
 const scrapeZipRecruiter = async () => {
-    const launchOptions = {
-            headless: true
-          }
-    
-    const mainBrowser = await chromium.launch(launchOptions);
+  const launchOptions = {
+    headless: true,
+  };
 
-  try {
-        const mainContext = await mainBrowser.newContext({ 
-          userAgent,
-          viewport: { width: 1280, height: 720 }
-         });
+  const mainBrowser = await chromium.launch(launchOptions);
 
-        await mainContext.addInitScript(
-          "Object.defineProperty(navigator, 'webdriver', { get: () => undefined })",
-        );
-    
-        const newPage = await mainContext.newPage();
+    try {
+          const mainContext = await mainBrowser.newContext({
+            userAgent,
+            viewport: { width: 1280, height: 720 }
+           });
 
-        await newPage.setExtraHTTPHeaders(userAgentHTTPHeaders);
+          await mainContext.addInitScript(
+            "Object.defineProperty(navigator, 'webdriver', { get: () => undefined })",
+          );
 
-        await newPage.goto('https://www.ziprecruiter.com/jobs-search?form=jobs-landing&search=Programming&location=Oakdale%2C+CA&lvk=K3VL4e3ZonyLWph8RCo7tA.--NhxyzRG0J');
+          const newPage = await mainContext.newPage();
 
-        const jobInfo = await newPage.$$eval('div.job_result_two_pane.relative.h-full', (divs) => {
-          console.log('Found all dom elements.')
-          const data: Array<string | null> = [];
-          for (const div of divs) {
-            console.log('Iterated through a dom element')
-            data.push(`${div.textContent}\n`);
-          };
-          console.log('Returning data')
-          return data;
-        })
+          await newPage.setExtraHTTPHeaders(userAgentHTTPHeaders);
 
-        console.log(jobInfo);
+          await newPage.goto('https://www.ziprecruiter.com/jobs-search?form=jobs-landing&search=Programming&location=Oakdale%2C+CA&lvk=K3VL4e3ZonyLWph8RCo7tA.--NhxyzRG0J');
 
-        await mainContext.close();
-        
-        await mainBrowser.close();
-    } catch (error) {
-        console.error(error);
-        await mainBrowser.close();
-  }
-}
+          const jobInfo = await newPage.$$eval('div.job_result_two_pane.relative.h-full', (divs) => {
+            console.log('Found all dom elements.')
+            const data: Array<string | null> = [];
+            for (const div of divs) {
+              console.log('Iterated through a dom element')
+              data.push(`${div.textContent}\n`);
+            };
+            console.log('Returning data')
+            return data;
+          })
 
-export { scrapeZipRecruiter }
+          await mainContext.close();
+
+          await mainBrowser.close();
+
+          return jobInfo;
+      } catch (error) {
+          console.error(error);
+          await mainBrowser.close();
+    }
+};
+
+export { scrapeZipRecruiter };
