@@ -1,61 +1,88 @@
-import type { Browser } from "playwright";
-import { chromium } from "playwright";
+import type { Browser, BrowserContext } from 'playwright';
+import { chromium } from 'playwright';
 
-class WebScraper {
+export class WebScraper {
+  _userAgent: string;
+  _userAgentHTTPHeaders: {
+    'Accept-Language': string;
+    'Accept-Encoding': string;
+    Accept: string;
+    Connection: string;
+  };
+  _launchOptions: {
+    headless: boolean;
+  };
+  _browserContext: {
     userAgent: string;
-    userAgentHTTPHeaders: {
-        "Accept-Language": string;
+    viewport: {
+      width: number;
+      height: number;
     };
-    launchOptions: {
-        headless: boolean
+  };
+  _initScript: string;
+  _searchURL: string;
+  _mainBrowser: Browser | null;
+  _mainContext: BrowserContext | null;
+
+  constructor(searchURL: string) {
+    this._userAgent =
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
+    this._userAgentHTTPHeaders = {
+      'Accept-Encoding': 'gzip, deflate, br',
+      Accept:
+        'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+      Connection: 'keep-alive',
+      'Accept-Language': 'en-US,en;q=0.9,lt;q=0.8,et;q=0.7,de;q=0.6',
     };
-    browserContext: {
-        userAgent: string;
-        viewport: {
-            width: number;
-            height: number;
-        }
+    this._launchOptions = {
+      headless: false,
+    };
+    this._browserContext = {
+      userAgent: this._userAgent,
+      viewport: { width: 1280, height: 720 },
+    };
+    this._initScript =
+      "Object.defineProperty(navigator, 'webdriver', { get: () => undefined })";
+
+    this._searchURL = searchURL;
+
+    this._mainBrowser = null;
+    this._mainContext = null;
+  }
+
+  getRandomTimeInterval() {
+    return Math.round(Math.random() * 1000);
+  }
+
+  async initializeScraper() {
+    this._mainBrowser = await chromium.launch(this._launchOptions);
+
+    try {
+      this._mainContext = await this._mainBrowser.newContext(this._browserContext);
+      await this._mainContext.addInitScript(this._initScript);
+
+      const mainPage = await this._mainContext.newPage();
+
+      await mainPage.setExtraHTTPHeaders(this._userAgentHTTPHeaders);
+
+      await mainPage.goto(this._searchURL);
+
+      await mainPage.waitForTimeout(this.getRandomTimeInterval());
+
+      return mainPage;
+    } catch (error) {
+      console.error(error);
+      await this.closeScraper();
     }
-    initScript: string;
-    mainBrowser: Browser;
+  }
 
-    constructor() {
-        this.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
-        this.userAgentHTTPHeaders = {
-            'Accept-Language': 'en-US,en;q=0.9',
-          };
-        this.launchOptions = {
-            headless: true,
-          };
-        this.browserContext = {
-            userAgent: this.userAgent,
-            viewport: { width: 1280, height: 720 },
-          };
-        this.initScript = "Object.defineProperty(navigator, 'webdriver', { get: () => undefined })";
-    }
-
-    getRandomTimeInterval() {
-        return Math.round(Math.random() * 1000);
-    }
-
-    async initializeBrowser(searchURL: string) {
-        this.mainBrowser = await chromium.launch(this.launchOptions);
-        const mainContext = await this.mainBrowser.newContext({userAgent: this.userAgent});
-        await mainContext.addInitScript(this.initScript);
-
-        const mainPage = await mainContext.newPage();
-
-        await mainPage.goto(searchURL);
-
-        await mainPage.waitForTimeout(this.getRandomTimeInterval());
-
-        return mainPage;
-    }
-
-    async closeBrowser() {
-        if (this.mainBrowser) {
-            await this.mainBrowser.close();
-        }
+  async closeScraper() {
+    if (this._mainContext !== null) {
+      await this._mainContext.close();
     }
 
+    if (this._mainBrowser !== null) {
+      await this._mainBrowser.close();
+    }
+  }
 }

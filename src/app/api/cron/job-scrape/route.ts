@@ -8,10 +8,11 @@ import { scrapeZipRecruiter } from '~/scrapes/ziprecruiter';
 export const GET = async () => {
   try {
     const indeedResults = await scrapeIndeed();
-    const zipRecruiter: string[] = await scrapeZipRecruiter();
+    ('const zipRecruiter: string[] = await scrapeZipRecruiter();');
 
-
-    return new NextResponse(ResponseBuilder({ data: [indeedResults, zipRecruiter], success: true }));
+    return new NextResponse(
+      ResponseBuilder({ data: [indeedResults, 'zipRecruiter'], success: true }),
+    );
   } catch (err) {
     console.error('error running scrapes', err);
     return new NextResponse(

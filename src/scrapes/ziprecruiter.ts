@@ -1,44 +1,14 @@
-import { chromium } from 'playwright';
-
-// Provides a user agent to the browser in multiple ways to appear less like a bot.
-const userAgent =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
-const userAgentHTTPHeaders = {
-  'Accept-Language': 'en-US,en;q=0.9',
-};
-
-function getRandomInterval() {
-  return Math.round(Math.random() * 10000);
-}
+import { WebScraper } from './baseScrape';
 
 const scrapeZipRecruiter = async () => {
-  const launchOptions = {
-    headless: true,
-  };
-
-  const mainBrowser = await chromium.launch(launchOptions);
+  const zipRecruiterScraper = new WebScraper(
+    'https://www.ziprecruiter.com/jobs-search?form=jobs-landing&search=Programming&location=Oakdale%2C+CA&lvk=K3VL4e3ZonyLWph8RCo7tA.--NhxyzRG0J',
+  );
 
   try {
-    const mainContext = await mainBrowser.newContext({
-      userAgent,
-      viewport: { width: 1280, height: 720 },
-    });
+    const zipRecruiterPage = await zipRecruiterScraper.initializeScraper();
 
-    await mainContext.addInitScript(
-      "Object.defineProperty(navigator, 'webdriver', { get: () => undefined })",
-    );
-
-    const newPage = await mainContext.newPage();
-
-    await newPage.setExtraHTTPHeaders(userAgentHTTPHeaders);
-
-    await newPage.goto(
-      'https://www.ziprecruiter.com/jobs-search?form=jobs-landing&search=Programming&location=Oakdale%2C+CA&lvk=K3VL4e3ZonyLWph8RCo7tA.--NhxyzRG0J',
-    );
-
-    await newPage.waitForTimeout(getRandomInterval());
-
-    const jobInfo = await newPage.$$eval(
+    const jobInfo = await zipRecruiterPage.$$eval(
       'div.job_result_two_pane.relative.h-full',
       (divs) => {
         console.log('Found all dom elements.');
@@ -52,16 +22,12 @@ const scrapeZipRecruiter = async () => {
       },
     );
 
-    await newPage.waitForTimeout(getRandomInterval());
-
-    await mainContext.close();
-
-    await mainBrowser.close();
+    await zipRecruiterScraper.closeScraper();
 
     return jobInfo;
   } catch (error) {
     console.error(error);
-    await mainBrowser.close();
+    await zipRecruiterScraper.closeScraper();
   }
 };
 
