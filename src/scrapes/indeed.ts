@@ -1,15 +1,14 @@
 // https://medium.com/@seotanvirbd/scraping-indeed-com-a-step-by-step-guide-using-playwright-and-beautifulsoup-bcd55ac921d2
 
-import { chromium } from 'playwright';
 import { WebScraper } from './baseScrape';
 
 const scrapeIndeed = async () => {
-  const indeedScraper = new WebScraper(
-    `https://www.indeed.com/jobs?q=programming&latLong=37.78122%2C-120.83538&locString=Oakdale%2C+CA%2C+95361&from=searchOnHP&vjk=282e9da5f8d86971`,
-  );
+  const indeedScraper = new WebScraper(`https://www.indeed.com/`);
 
   try {
     const indeedPage = await indeedScraper.initializeScraper();
+
+    await indeedPage.waitForTimeout(10000);
 
     await indeedPage
       .locator(
