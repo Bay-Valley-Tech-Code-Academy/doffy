@@ -1,5 +1,4 @@
 import type { Browser, BrowserContext } from 'playwright';
-// import { chromium } from 'playwright';
 import { chromium } from 'playwright-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
@@ -12,6 +11,7 @@ export class WebScraper {
     'Accept-Encoding': string;
     Accept: string;
     Connection: string;
+    Referer: string;
   };
   _launchOptions: {
     headless: boolean;
@@ -31,19 +31,17 @@ export class WebScraper {
   constructor(searchURL: string) {
     const userAgentStrings = [
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
     ];
 
     this._userAgent =
       userAgentStrings[Math.floor(Math.random() * userAgentStrings.length)];
     this._userAgentHTTPHeaders = {
-      'Accept-Encoding': 'gzip, deflate, br',
-      Accept:
-        'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
+      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
       Connection: 'keep-alive',
-      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept-Language': 'en-US,en;q=0.5',
+      Referer: 'https://www.google.com/',
     };
     this._launchOptions = {
       headless: false,
@@ -62,7 +60,7 @@ export class WebScraper {
   }
 
   getRandomTimeInterval() {
-    return Math.round(Math.random() * 1000);
+    return Math.round(Math.random() * 5000);
   }
 
   async initializeScraper() {
@@ -76,7 +74,9 @@ export class WebScraper {
 
       await mainPage.setExtraHTTPHeaders(this._userAgentHTTPHeaders);
 
-      await mainPage.goto(this._searchURL);
+      await mainPage.waitForTimeout(this.getRandomTimeInterval());
+
+      await mainPage.goto(this._searchURL, {waitUntil: 'networkidle'});
 
       await mainPage.waitForTimeout(this.getRandomTimeInterval());
 
