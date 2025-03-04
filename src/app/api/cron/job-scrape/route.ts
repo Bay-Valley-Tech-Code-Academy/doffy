@@ -7,11 +7,11 @@ import { scrapeZipRecruiter } from '~/scrapes/ziprecruiter';
 
 export const GET = async () => {
   try {
-    const indeedResults = await scrapeIndeed();
+    // const indeedResults = await scrapeIndeed();
     const zipRecruiter = await scrapeZipRecruiter();
 
     return new NextResponse(
-      ResponseBuilder({ data: [indeedResults, zipRecruiter], success: true }),
+      ResponseBuilder({ data: [zipRecruiter], success: true }),
     );
   } catch (err) {
     console.error('error running scrapes', err);

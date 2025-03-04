@@ -11,7 +11,7 @@ const scrapeZipRecruiter = async () => {
 
     await zipRecruiterPage.waitForTimeout(zipRecruiterScraper.getRandomTimeInterval());
 
-    const dialogPopUp = await zipRecruiterPage.getByRole("dialog").boundingBox();
+    const dialogPopUp = await zipRecruiterPage.getByRole('dialog').boundingBox();
     await zipRecruiterPage.mouse.click(dialogPopUp.x - 100, dialogPopUp.y);
 
     const jobSearchPane = await zipRecruiterPage
@@ -22,13 +22,17 @@ const scrapeZipRecruiter = async () => {
 
     const jobInfo = [];
     for (const job of jobSearchPane) {
-      await job.locator(
-        ' article.group.flex.w-full.flex-col.text-primary > div > div > div.mb-12.flex.flex-col.gap-12 > div > div > h2'
-      ).scrollIntoViewIfNeeded();
-      
-      await job.locator(
-        ' article.group.flex.w-full.flex-col.text-primary > div > div > div.mb-12.flex.flex-col.gap-12 > div > div > h2'
-      ).click();
+      await job
+        .locator(
+          ' article.group.flex.w-full.flex-col.text-primary > div > div > div.mb-12.flex.flex-col.gap-12 > div > div > h2',
+        )
+        .scrollIntoViewIfNeeded();
+
+      await job
+        .locator(
+          ' article.group.flex.w-full.flex-col.text-primary > div > div > div.mb-12.flex.flex-col.gap-12 > div > div > h2',
+        )
+        .click();
 
       await zipRecruiterPage.waitForTimeout(5000);
 
@@ -39,22 +43,30 @@ const scrapeZipRecruiter = async () => {
       const jobName = await zipRecruiterPage
         .locator('div.grid > div.grid.gap-y-8 > h1.font-bold.text-primary.text-header-md')
         .innerText();
-      
-        const companyName = await zipRecruiterPage
-        .locator('div.grid > div.grid.gap-y-8 > a.text-primary.normal-case.rounded-2.outline-none.w-fit.gap-4.items-center')
+
+      const companyName = await zipRecruiterPage
+        .locator(
+          'div.grid > div.grid.gap-y-8 > a.text-primary.normal-case.rounded-2.outline-none.w-fit.gap-4.items-center',
+        )
         .innerText();
-       
-        const jobLocation = await zipRecruiterPage
-        .locator('div.grid > div.grid.gap-y-8 > div.mb-24 > p.text-primary.normal-case.text-body-md')
+
+      const jobLocation = await zipRecruiterPage
+        .locator(
+          'div.grid > div.grid.gap-y-8 > div.mb-24 > p.text-primary.normal-case.text-body-md',
+        )
         .innerText();
-        
-        const variousInfo = await zipRecruiterPage
-        .locator('div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md')
-        .allInnerTexts()
-        
-        const jobDescription = await zipRecruiterPage
-        .locator('div.flex.flex-col.gap-y-48 > div.relative.flex.flex-col > div.text-primary.whitespace-pre-line.break-words')
-        .allInnerTexts()
+
+      const variousInfo = await zipRecruiterPage
+        .locator(
+          'div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md',
+        )
+        .allInnerTexts();
+
+      const jobDescription = await zipRecruiterPage
+        .locator(
+          'div.flex.flex-col.gap-y-48 > div.relative.flex.flex-col > div.text-primary.whitespace-pre-line.break-words',
+        )
+        .allInnerTexts();
 
       jobInfo.push([jobName, companyName, jobLocation, variousInfo, jobDescription]);
     }
