@@ -4,14 +4,16 @@ import { ResponseBuilder } from '../../../../lib/response-builder';
 
 import { scrapeIndeed } from '~/scrapes/indeed';
 import { scrapeZipRecruiter } from '~/scrapes/ziprecruiter';
+import { scrapeMonster } from '~/scrapes/monster';
 
 export const GET = async () => {
   try {
     // const indeedResults = await scrapeIndeed();
-    const zipRecruiter = await scrapeZipRecruiter();
+    // const zipRecruiter = await scrapeZipRecruiter();
+    const monster = await scrapeMonster();
 
     return new NextResponse(
-      ResponseBuilder({ data: [zipRecruiter], success: true }),
+      ResponseBuilder({ data: [], success: true }),
     );
   } catch (err) {
     console.error('error running scrapes', err);
