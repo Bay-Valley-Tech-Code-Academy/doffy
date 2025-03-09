@@ -18,8 +18,8 @@ export const GET = async () => {
     });
     const webScraper = new WebScraper(mainBrowser);
 
-    // const testScrape = await scrapeTest(webScraper);
-    // const zipRecruiter = await scrapeZipRecruiter(webScraper);
+    const testScrape = await scrapeTest(webScraper);
+    const zipRecruiter = await scrapeZipRecruiter(webScraper);
     const indeedResults = await scrapeIndeed(webScraper);
     // const monster = await scrapeMonster(webScraper);
 
