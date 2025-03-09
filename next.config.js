@@ -6,7 +6,7 @@ import './src/env.js';
 
 /** @type {import("next").NextConfig} */
 const config = {
-    serverExternalPackages: ["puppeteer-extra-plugin-stealth", "playwright-extra", "playwright"]
+    serverExternalPackages: ["puppeteer-extra-plugin-stealth", "playwright-extra", "playwright", "patchright"]
 };
 
 export default config;

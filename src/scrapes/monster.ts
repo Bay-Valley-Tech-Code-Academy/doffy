@@ -1,26 +1,23 @@
-import { WebScraper } from './baseScrape';
+import type { WebScraper } from './baseScrape';
 
-const scrapeMonster = async () => {
-  const zipRecruiterScraper = new WebScraper(
-    // `https://www.ziprecruiter.com/`
-    'https://www.monster.com/jobs/search?q=web+developer&where=Oakdale%2C+CA&page=2&so=m.h.s',
-  );
-
+const scrapeMonster = async (webScraper: WebScraper) => {
   try {
-    const zipRecruiterPage = await zipRecruiterScraper.initializeScraper();
+    const monsterPage = await webScraper.navigateToPage(
+      'https://www.monster.com/jobs/search?q=web+developer&where=Oakdale%2C+CA&page=2&so=m.h.s',
+    );
 
-    await zipRecruiterPage.waitForTimeout(zipRecruiterScraper.getRandomTimeInterval());
+    await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
-    await zipRecruiterPage.waitForTimeout(10000);
+    await monsterPage.waitForTimeout(10000);
 
-    await zipRecruiterPage.waitForSelector("div#JobCardGrid", {timeout: 5000});
+    await monsterPage.waitForSelector('div#JobCardGrid', { timeout: 5000 });
 
-    await zipRecruiterScraper.closeScraper();
+    await monsterPage.close();
 
     return '';
   } catch (error) {
     console.error(error);
-    await zipRecruiterScraper.closeScraper();
+    await webScraper.closeScraper();
   }
 };
 

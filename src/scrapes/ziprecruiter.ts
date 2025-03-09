@@ -1,15 +1,12 @@
-import { WebScraper } from './baseScrape';
+import type { WebScraper } from './baseScrape';
 
-const scrapeZipRecruiter = async () => {
-  const zipRecruiterScraper = new WebScraper(
-    // `https://www.ziprecruiter.com/`
-    'https://www.ziprecruiter.com/jobs-search?form=jobs-landing&search=Programming&location=Oakdale%2C+CA&lvk=BSzvspPKpdNhZ-Oz2ck87w.--NhWHNPoVg',
-  );
-
+const scrapeZipRecruiter = async (webScraper: WebScraper) => {
   try {
-    const zipRecruiterPage = await zipRecruiterScraper.initializeScraper();
+    const zipRecruiterPage = await webScraper.navigateToPage(
+      'https://www.ziprecruiter.com/jobs-search?form=jobs-landing&search=Programming&location=Oakdale%2C+CA&lvk=BSzvspPKpdNhZ-Oz2ck87w.--NhWHNPoVg',
+    );
 
-    await zipRecruiterPage.waitForTimeout(zipRecruiterScraper.getRandomTimeInterval());
+    await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
     const dialogPopUp = await zipRecruiterPage.getByRole('dialog').boundingBox();
     await zipRecruiterPage.mouse.click(dialogPopUp.x - 100, dialogPopUp.y);
@@ -73,12 +70,12 @@ const scrapeZipRecruiter = async () => {
 
     await zipRecruiterPage.waitForTimeout(10000);
 
-    await zipRecruiterScraper.closeScraper();
+    await zipRecruiterPage.close();
 
     return jobInfo;
   } catch (error) {
     console.error(error);
-    await zipRecruiterScraper.closeScraper();
+    await webScraper.closeScraper();
   }
 };
 
