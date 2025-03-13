@@ -3,7 +3,7 @@ import type { WebScraper } from './baseScrape';
 const scrapeTest = async (webScraper: WebScraper) => {
   try {
     const testPage = await webScraper.navigateToPage(
-        `https://pixelscan.net/#what_website_see`
+      `https://pixelscan.net/#what_website_see`,
     );
 
     await testPage.waitForTimeout(webScraper.getRandomTimeInterval());

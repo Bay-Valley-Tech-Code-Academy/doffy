@@ -8,13 +8,21 @@ const scrapeMonster = async (webScraper: WebScraper) => {
 
     await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
-    await monsterPage.waitForTimeout(10000);
+    const jobSearchPane = await monsterPage
+      .locator('div#JobCardGrid > div.indexmodern__StyledJobCardsContainer-sc-9vl52l-40')
+      .all();
 
-    await monsterPage.waitForSelector('div#JobCardGrid', { timeout: 5000 });
+    const jobInfo = [];
+    for (const job of jobSearchPane) {
+      await job.scrollIntoViewIfNeeded();
+      await job.click({ button: 'left' });
+
+      await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
+    }
 
     await monsterPage.close();
 
-    return '';
+    return jobInfo;
   } catch (error) {
     console.error(error);
     await webScraper.closeScraper();

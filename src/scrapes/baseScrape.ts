@@ -9,7 +9,8 @@ export class WebScraper {
   }
 
   getRandomTimeInterval() {
-    return Math.round(Math.random() * 5000);
+    // Minimum time returned is 3 seconds or 3000 milliseconds.
+    return Math.floor(Math.random() * 2000 + 3000);
   }
 
   async navigateToPage(searchURL: string) {
@@ -18,7 +19,7 @@ export class WebScraper {
 
       await mainPage.waitForTimeout(this.getRandomTimeInterval());
 
-      await mainPage.goto(searchURL, {waitUntil: 'networkidle'});
+      await mainPage.goto(searchURL, { waitUntil: 'networkidle' });
 
       await mainPage.waitForTimeout(this.getRandomTimeInterval());
 
