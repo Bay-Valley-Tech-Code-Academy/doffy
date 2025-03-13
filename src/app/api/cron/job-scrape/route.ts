@@ -19,15 +19,15 @@ export const GET = async () => {
     const webScraper = new WebScraper(mainBrowser);
 
     // const testScrape = await scrapeTest(webScraper);
-    // const zipRecruiter = await scrapeZipRecruiter(webScraper);
-    // const indeedResults = await scrapeIndeed(webScraper);
-    // const monster = await scrapeMonster(webScraper);
+    const zipRecruiter = await scrapeZipRecruiter(webScraper);
+    const indeedResults = await scrapeIndeed(webScraper);
+    const monster = await scrapeMonster(webScraper);
 
     await webScraper.closeScraper();
 
     return new NextResponse(
       ResponseBuilder({
-        data: ['zipRecruiter', indeedResults, 'monster'],
+        data: [zipRecruiter, indeedResults, monster],
         success: true,
       }),
     );

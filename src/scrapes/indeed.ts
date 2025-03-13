@@ -21,7 +21,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
 
       await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
-      const jobName = await indeedPage
+      const jobTitle = await indeedPage
         .getByTestId('jobsearch-JobInfoHeader-title')
         .innerText();
 
@@ -37,7 +37,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         .locator('div.jobsearch-JobComponent-description > div#jobDescriptionText')
         .allInnerTexts();
 
-      jobInfo.push([jobName, jobCompany, jobLocation, jobDescription.join('|')]);
+      jobInfo.push([jobTitle, jobCompany, jobLocation, jobDescription.join('|')]);
     }
 
     await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
