@@ -23,26 +23,39 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
       await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
       const jobTitle = await indeedPage
-        .getByTestId('jobsearch-JobInfoHeader-title')
+        .locator('div.jobsearch-InfoHeaderContainer > div > div > h2')
         .innerText();
 
+      // Evaluates if the company name functions as a link, if so the text from the a element is grabbed, else the text from the span is grabbed.
       const jobCompany = await indeedPage
-        .getByTestId('inlineHeader-companyName')
+        .locator('div.jobsearch-InfoHeaderContainer > div > div > div > span')
+        .or(
+          indeedPage.locator(
+            'div.jobsearch-InfoHeaderContainer > div > div > div > span > a',
+          ),
+        )
+        .first()
+        .innerText();
+        
+      const jobLocation = await indeedPage
+        .locator('div.jobsearch-InfoHeaderContainer > div > div > div > div > div')
+        .or(
+          indeedPage.locator(
+            'div.jobsearch-InfoHeaderContainer > div > div > div > div > div > div',
+          ),
+        )
+        .first()
         .innerText();
 
-      const jobLocation = await indeedPage
-        .getByTestId('inlineHeader-companyLocation')
-        .allInnerTexts();
-
-      const jobDescription = await indeedPage
-        .locator('div.jobsearch-JobComponent-description > div#jobDescriptionText')
-        .allInnerTexts();
+      // const jobDescription = await indeedPage
+      //   .locator('div.jobsearch-JobComponent-description > div#jobDescriptionText')
+      //   .allInnerTexts();
 
       const currentJob: ScrapedJobInfo = {
         jobTitle,
         jobCompany,
-        jobLocation: jobLocation.join('|'),
-        jobDescription: jobDescription.join('|'),
+        jobLocation,
+        jobDescription: '',
       };
 
       jobInfo.push(currentJob);

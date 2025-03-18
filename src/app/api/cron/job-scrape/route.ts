@@ -18,19 +18,20 @@ export const GET = async () => {
   const webScraper = new WebScraper(mainBrowser);
 
   try {
-    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
+    // const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
     const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
-    const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
+    // const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
 
     await webScraper.closeScraper();
 
     const scraperData: ScrapedJobInfo[][] = [];
 
-    for (const scraperResults of [zipRecruiter, indeedResults, monster]) {
-      if (scraperResults !== null) {
-        scraperData.push(scraperResults);
-      }
-    }
+    // for (const scraperResults of [zipRecruiter, indeedResults, monster]) {
+    //   if (scraperResults !== null) {
+    //     scraperData.push(scraperResults);
+    //   }
+    // }
+    scraperData.push(indeedResults);
     return new NextResponse(
       ResponseBuilder({
         data: scraperData,
