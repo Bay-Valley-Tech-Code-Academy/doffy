@@ -11,13 +11,13 @@ import { chromium } from 'patchright';
 import { WebScraper } from '~/scrapes/baseScrape';
 
 export const GET = async () => {
-  try {
-    const mainBrowser = await chromium.launch({
-      headless: false,
-      channel: 'chrome',
-    });
-    const webScraper = new WebScraper(mainBrowser);
+  const mainBrowser = await chromium.launch({
+    headless: false,
+    channel: 'chrome',
+  });
+  const webScraper = new WebScraper(mainBrowser);
 
+  try {
     // const testScrape = await scrapeTest(webScraper);
     const zipRecruiter = await scrapeZipRecruiter(webScraper);
     const indeedResults = await scrapeIndeed(webScraper);
@@ -32,6 +32,7 @@ export const GET = async () => {
       }),
     );
   } catch (err) {
+    await webScraper.closeScraper();
     console.error('error running scrapes', err);
     return new NextResponse(
       ResponseBuilder({ success: false }, 'Error running scrapes', true),

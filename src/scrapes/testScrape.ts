@@ -1,11 +1,11 @@
 import type { WebScraper } from './baseScrape';
 
 const scrapeTest = async (webScraper: WebScraper) => {
-  try {
-    const testPage = await webScraper.navigateToPage(
-      `https://pixelscan.net/#what_website_see`,
-    );
+  const testPage = await webScraper.navigateToPage(
+    `https://pixelscan.net/#what_website_see`,
+  );
 
+  try {
     await testPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
     await testPage.waitForTimeout(10000);
@@ -15,7 +15,8 @@ const scrapeTest = async (webScraper: WebScraper) => {
     return '';
   } catch (error) {
     console.error(error);
-    await webScraper.closeScraper();
+    await testPage.close();
+    return null;
   }
 };
 

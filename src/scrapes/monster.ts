@@ -1,11 +1,11 @@
 import type { WebScraper } from './baseScrape';
 
 const scrapeMonster = async (webScraper: WebScraper) => {
-  try {
-    const monsterPage = await webScraper.navigateToPage(
-      'https://www.monster.com/jobs/search?q=Web+Developer&where=Modesto%2C+CA&page=1&so=m.s.sh',
-    );
+  const monsterPage = await webScraper.navigateToPage(
+    'https://www.monster.com/jobs/search?q=Web+Developer&where=Modesto%2C+CA&page=1&so=m.s.sh',
+  );
 
+  try {
     await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
     const jobSearchPane = await monsterPage.getByTestId('JobCard').all();
@@ -45,7 +45,8 @@ const scrapeMonster = async (webScraper: WebScraper) => {
     return jobInfo;
   } catch (error) {
     console.error(error);
-    await webScraper.closeScraper();
+    await monsterPage.close();
+    return null;
   }
 };
 
