@@ -31,7 +31,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         )
         .click();
 
-      await zipRecruiterPage.waitForTimeout(5 * webScraper.getRandomTimeInterval());
+      await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
       await zipRecruiterPage
         .locator('div.grid > div.grid.gap-y-8 > h1.font-bold.text-primary.text-header-md')
