@@ -36,7 +36,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         )
         .first()
         .innerText();
-        
+
       const jobLocation = await indeedPage
         .locator('div.jobsearch-InfoHeaderContainer > div > div > div > div > div')
         .or(
@@ -47,15 +47,15 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         .first()
         .innerText();
 
-      // const jobDescription = await indeedPage
-      //   .locator('div.jobsearch-JobComponent-description > div#jobDescriptionText')
-      //   .allInnerTexts();
+      const jobDescription = await indeedPage
+        .locator('div.jobsearch-JobComponent-description > div#jobDescriptionText')
+        .allInnerTexts();
 
       const currentJob: ScrapedJobInfo = {
         jobTitle,
         jobCompany,
         jobLocation,
-        jobDescription: '',
+        jobDescription: jobDescription.join('|'),
       };
 
       jobInfo.push(currentJob);
