@@ -18,8 +18,8 @@ export const GET = async () => {
   const webScraper = new WebScraper(mainBrowser);
 
   try {
-    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
     const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
+    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
     const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
 
     await webScraper.closeScraper();

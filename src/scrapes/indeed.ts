@@ -28,11 +28,13 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
 
       // Evaluates if the company name functions as a link, if so the text from the a element is grabbed, else the text from the span is grabbed.
       const jobCompany = await indeedPage
-        .locator('div.jobsearch-InfoHeaderContainer > div > div > div > span')
+        .locator(
+          'div.jobsearch-InfoHeaderContainer > div > div > div > span > a.jobsearch-JobInfoHeader-companyNameLink',
+        )
         .or(
-          indeedPage.locator(
-            'div.jobsearch-InfoHeaderContainer > div > div > div > span > a',
-          ),
+          indeedPage
+            .locator('div.jobsearch-InfoHeaderContainer > div > div > div > span')
+            .first(),
         )
         .first()
         .innerText();
