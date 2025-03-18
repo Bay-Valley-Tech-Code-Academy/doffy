@@ -1,6 +1,7 @@
 // https://medium.com/@seotanvirbd/scraping-indeed-com-a-step-by-step-guide-using-playwright-and-beautifulsoup-bcd55ac921d2
 
-import { WebScraper } from './baseScrape';
+import type { WebScraper } from './baseScrape';
+import type { ScrapedJobInfo } from './webScraperTypes';
 
 const scrapeIndeed = async (webScraper: WebScraper) => {
   const indeedPage = await webScraper.navigateToPage(
@@ -14,7 +15,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
       .locator('div.job_seen_beacon > table > tbody > tr > td.resultContent')
       .all();
 
-    const jobInfo = [];
+    const jobInfo: ScrapedJobInfo[] = [];
     for (const job of jobSearchPane) {
       await job.scrollIntoViewIfNeeded();
       await job.click({ button: 'left' });
@@ -37,7 +38,14 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         .locator('div.jobsearch-JobComponent-description > div#jobDescriptionText')
         .allInnerTexts();
 
-      jobInfo.push([jobTitle, jobCompany, jobLocation, jobDescription.join('|')]);
+      const currentJob: ScrapedJobInfo = {
+        jobTitle,
+        jobCompany,
+        jobLocation: jobLocation.join('|'),
+        jobDescription: jobDescription.join('|'),
+      };
+
+      jobInfo.push(currentJob);
     }
 
     await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());

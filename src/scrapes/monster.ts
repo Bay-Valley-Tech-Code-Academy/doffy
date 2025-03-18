@@ -1,4 +1,5 @@
 import type { WebScraper } from './baseScrape';
+import type { ScrapedJobInfo } from './webScraperTypes';
 
 const scrapeMonster = async (webScraper: WebScraper) => {
   const monsterPage = await webScraper.navigateToPage(
@@ -12,7 +13,7 @@ const scrapeMonster = async (webScraper: WebScraper) => {
 
     await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
-    const jobInfo = [];
+    const jobInfo: ScrapedJobInfo[] = [];
     for (const job of jobSearchPane) {
       await job.scrollIntoViewIfNeeded();
       await job.click({ button: 'left' });
@@ -37,7 +38,14 @@ const scrapeMonster = async (webScraper: WebScraper) => {
         .getByTestId('svx-description-container-inner')
         .allInnerTexts();
 
-      jobInfo.push([jobTitle, jobCompany, jobLocation, jobDescription.join('|')]);
+      const currentJob: ScrapedJobInfo = {
+        jobTitle,
+        jobCompany,
+        jobLocation: jobLocation,
+        jobDescription: jobDescription.join('|'),
+      };
+
+      jobInfo.push(currentJob);
     }
 
     await monsterPage.close();

@@ -1,4 +1,5 @@
 import type { WebScraper } from './baseScrape';
+import type { ScrapedJobInfo } from './webScraperTypes';
 
 const scrapeZipRecruiter = async (webScraper: WebScraper) => {
   const zipRecruiterPage = await webScraper.navigateToPage(
@@ -17,7 +18,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
       )
       .all();
 
-    const jobInfo = [];
+    const jobInfo: ScrapedJobInfo[] = [];
     for (const job of jobSearchPane) {
       await job
         .locator(
@@ -37,11 +38,11 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         .locator('div.grid > div.grid.gap-y-8 > h1.font-bold.text-primary.text-header-md')
         .scrollIntoViewIfNeeded();
 
-      const jobName = await zipRecruiterPage
+      const jobTitle = await zipRecruiterPage
         .locator('div.grid > div.grid.gap-y-8 > h1.font-bold.text-primary.text-header-md')
         .innerText();
 
-      const companyName = await zipRecruiterPage
+      const jobCompany = await zipRecruiterPage
         .locator(
           'div.grid > div.grid.gap-y-8 > a.text-primary.normal-case.rounded-2.outline-none.w-fit.gap-4.items-center',
         )
@@ -53,11 +54,11 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         )
         .innerText();
 
-      const variousInfo = await zipRecruiterPage
-        .locator(
-          'div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md',
-        )
-        .allInnerTexts();
+      // const variousInfo = await zipRecruiterPage
+      //   .locator(
+      //     'div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md',
+      //   )
+      //   .allInnerTexts();
 
       const jobDescription = await zipRecruiterPage
         .locator(
@@ -65,7 +66,14 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         )
         .allInnerTexts();
 
-      jobInfo.push([jobName, companyName, jobLocation, variousInfo, jobDescription]);
+      const currentJob: ScrapedJobInfo = {
+        jobTitle,
+        jobCompany,
+        jobLocation: jobLocation,
+        jobDescription: jobDescription.join('|'),
+      };
+
+      jobInfo.push(currentJob);
     }
 
     await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());

@@ -8,6 +8,7 @@ import { scrapeMonster } from '~/scrapes/monster';
 
 import { chromium } from 'patchright';
 import { WebScraper } from '~/scrapes/baseScrape';
+import type { ScrapedJobInfo } from '~/scrapes/webScraperTypes';
 
 export const GET = async () => {
   const mainBrowser = await chromium.launch({
@@ -17,15 +18,22 @@ export const GET = async () => {
   const webScraper = new WebScraper(mainBrowser);
 
   try {
-    const zipRecruiter = await scrapeZipRecruiter(webScraper);
-    const indeedResults = await scrapeIndeed(webScraper);
-    const monster = await scrapeMonster(webScraper);
+    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
+    const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
+    const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
 
     await webScraper.closeScraper();
 
+    const scraperData: ScrapedJobInfo[][] = [];
+
+    for (const scraperResults of [zipRecruiter, indeedResults, monster]) {
+      if (scraperResults !== null) {
+        scraperData.push(scraperResults);
+      }
+    }
     return new NextResponse(
       ResponseBuilder({
-        data: [zipRecruiter, indeedResults, monster],
+        data: scraperData,
         success: true,
       }),
     );
