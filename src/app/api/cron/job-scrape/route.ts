@@ -5,7 +5,6 @@ import { ResponseBuilder } from '../../../../lib/response-builder';
 import { scrapeIndeed } from '~/scrapes/indeed';
 import { scrapeZipRecruiter } from '~/scrapes/ziprecruiter';
 import { scrapeMonster } from '~/scrapes/monster';
-import { scrapeTest } from '~/scrapes/testScrape';
 
 import { chromium } from 'patchright';
 import { WebScraper } from '~/scrapes/baseScrape';
@@ -18,7 +17,6 @@ export const GET = async () => {
   const webScraper = new WebScraper(mainBrowser);
 
   try {
-    // const testScrape = await scrapeTest(webScraper);
     const zipRecruiter = await scrapeZipRecruiter(webScraper);
     const indeedResults = await scrapeIndeed(webScraper);
     const monster = await scrapeMonster(webScraper);
