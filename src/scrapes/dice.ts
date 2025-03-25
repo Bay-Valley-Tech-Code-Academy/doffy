@@ -13,6 +13,8 @@ const scrapeDice = async (webScraper: WebScraper) => {
     
     const jobSearchCards = await dicePage.locator("a.card-title-link").all();
     
+    const jobResults: ScrapedJobInfo[] = [];
+
     for (const job of jobSearchCards) {
         await job.scrollIntoViewIfNeeded();
         await job.click({button: 'left'})
@@ -28,7 +30,7 @@ const scrapeDice = async (webScraper: WebScraper) => {
     await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
     await dicePage.close();
 
-    return '';
+    return jobResults;
   } catch (err) {
     console.error('[ERROR]: scrapeIndeed', err);
     await dicePage.close();
