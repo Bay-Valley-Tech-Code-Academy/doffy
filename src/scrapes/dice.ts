@@ -21,10 +21,31 @@ const scrapeDice = async (webScraper: WebScraper) => {
         
         await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
 
-        
-        // Gets the current tabs and closes the newest one.
+        // Gets the newly opened tab.
         const currentTabs = dicePage.context().pages();
-        await currentTabs[currentTabs.length - 1].close();
+        const currentTab = currentTabs[currentTabs.length - 1];
+        
+        const jobTitle = await currentTab.locator("h1.flex.flex-wrap.text-center.ml-auto").innerText();
+
+        const jobCompany = await currentTab.locator("ul.companyInfo > li.mr-1 > a").innerText();
+
+        // Grabs the first instance of the li element containing this class, it will always be the li element containing the company name
+        const jobLocation = await currentTab.locator("li.job-header_jobDetail__ZGjiQ").first().innerText();
+
+        const jobDescription = await currentTab.getByTestId("jobDescriptionHtml").allInnerTexts();
+
+        const currentJob: ScrapedJobInfo = {
+          title: jobTitle,
+          company: jobCompany,
+          location: jobLocation,
+          description: jobDescription.join("|"),
+        };
+
+        jobResults.push(currentJob);
+
+        await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
+
+        await currentTab.close();
     }
 
     await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
