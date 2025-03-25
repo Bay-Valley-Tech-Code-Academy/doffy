@@ -10,6 +10,9 @@ import { chromium } from 'patchright';
 import { WebScraper } from '~/scrapes/baseScrape';
 import type { ScrapedJobInfo } from '~/scrapes/webScraperTypes';
 
+import { db } from '~/server/db';
+import { jobs } from '~/server/db/schema';
+
 export const GET = async () => {
   const mainBrowser = await chromium.launch({
     headless: false,
@@ -24,18 +27,24 @@ export const GET = async () => {
 
     await webScraper.closeScraper();
 
-    const scraperData: ScrapedJobInfo[][] = [];
-
     for (const scraperResults of [zipRecruiter, indeedResults, monster]) {
       if (scraperResults !== null) {
-        scraperData.push(scraperResults);
+        for (const jobResults of scraperResults) {
+          await db.insert(jobs).values({
+            title: jobResults.jobTitle,
+            company: jobResults.jobCompany,
+            location: jobResults.jobLocation,
+            description: jobResults.jobDescription,
+          })
+        }
       }
     }
 
     return new NextResponse(
       ResponseBuilder({
-        data: scraperData,
+        data: null,
         success: true,
+        message: "Jobs added to database."
       }),
     );
   } catch (err) {

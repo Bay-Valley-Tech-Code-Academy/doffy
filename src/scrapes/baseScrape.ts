@@ -1,7 +1,6 @@
 import type { Browser } from 'patchright';
 
 export class WebScraper {
-  _searchURL: string;
   _mainBrowser: Browser | null;
 
   constructor(mainBrowser: Browser) {
