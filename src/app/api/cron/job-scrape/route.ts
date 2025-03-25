@@ -23,24 +23,24 @@ export const GET = async () => {
 
   try {
     const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
-    // const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
-    // const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
-    // const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
+    const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
+    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
+    const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
 
     await webScraper.closeScraper();
 
-    // for (const scraperResults of [zipRecruiter, indeedResults, monster]) {
-    //   if (scraperResults !== null) {
-    //     for (const jobResults of scraperResults) {
-    //       await db.insert(jobs).values({
-    //         title: jobResults.title,
-    //         company: jobResults.company,
-    //         location: jobResults.location,
-    //         description: jobResults.description,
-    //       });
-    //     }
-    //   }
-    // }
+    for (const scraperResults of [zipRecruiter, indeedResults, monster, diceResults]) {
+      if (scraperResults !== null) {
+        for (const jobResults of scraperResults) {
+          await db.insert(jobs).values({
+            title: jobResults.title,
+            company: jobResults.company,
+            location: jobResults.location,
+            description: jobResults.description,
+          });
+        }
+      }
+    }
 
     return new NextResponse(
       ResponseBuilder({
