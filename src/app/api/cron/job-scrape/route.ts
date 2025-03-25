@@ -31,11 +31,11 @@ export const GET = async () => {
       if (scraperResults !== null) {
         for (const jobResults of scraperResults) {
           await db.insert(jobs).values({
-            title: jobResults.jobTitle,
-            company: jobResults.jobCompany,
-            location: jobResults.jobLocation,
-            description: jobResults.jobDescription,
-          })
+            title: jobResults.title,
+            company: jobResults.company,
+            location: jobResults.location,
+            description: jobResults.description,
+          });
         }
       }
     }
@@ -44,7 +44,7 @@ export const GET = async () => {
       ResponseBuilder({
         data: null,
         success: true,
-        message: "Jobs added to database."
+        message: 'Jobs added to database.',
       }),
     );
   } catch (err) {

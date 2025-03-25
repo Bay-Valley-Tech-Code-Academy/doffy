@@ -54,10 +54,10 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         .allInnerTexts();
 
       const currentJob: ScrapedJobInfo = {
-        jobTitle,
-        jobCompany,
-        jobLocation,
-        jobDescription: jobDescription.join('|'),
+        title: jobTitle,
+        company: jobCompany,
+        location: jobLocation,
+        description: jobDescription.join('|'),
       };
 
       jobInfo.push(currentJob);

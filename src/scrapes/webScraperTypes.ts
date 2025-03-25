@@ -1,6 +1,7 @@
 export type ScrapedJobInfo = {
-  jobTitle: string;
-  jobCompany: string;
-  jobLocation: string;
-  jobDescription: string;
+  id?: number;
+  title: string;
+  company: string;
+  location: string;
+  description: string;
 };
