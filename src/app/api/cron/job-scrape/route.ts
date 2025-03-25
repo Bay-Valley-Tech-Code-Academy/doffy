@@ -5,6 +5,7 @@ import { ResponseBuilder } from '../../../../lib/response-builder';
 import { scrapeIndeed } from '~/scrapes/indeed';
 import { scrapeZipRecruiter } from '~/scrapes/ziprecruiter';
 import { scrapeMonster } from '~/scrapes/monster';
+import { scrapeDice } from '~/scrapes/dice';
 
 import { chromium } from 'patchright';
 import { WebScraper } from '~/scrapes/baseScrape';
@@ -21,24 +22,25 @@ export const GET = async () => {
   const webScraper = new WebScraper(mainBrowser);
 
   try {
-    const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
-    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
-    const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
+    const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
+    // const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
+    // const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
+    // const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
 
     await webScraper.closeScraper();
 
-    for (const scraperResults of [zipRecruiter, indeedResults, monster]) {
-      if (scraperResults !== null) {
-        for (const jobResults of scraperResults) {
-          await db.insert(jobs).values({
-            title: jobResults.title,
-            company: jobResults.company,
-            location: jobResults.location,
-            description: jobResults.description,
-          });
-        }
-      }
-    }
+    // for (const scraperResults of [zipRecruiter, indeedResults, monster]) {
+    //   if (scraperResults !== null) {
+    //     for (const jobResults of scraperResults) {
+    //       await db.insert(jobs).values({
+    //         title: jobResults.title,
+    //         company: jobResults.company,
+    //         location: jobResults.location,
+    //         description: jobResults.description,
+    //       });
+    //     }
+    //   }
+    // }
 
     return new NextResponse(
       ResponseBuilder({
