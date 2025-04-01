@@ -7,6 +7,6 @@ export type ScrapedJobInfo = {
   pay: string;
   description: string;
   url: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
