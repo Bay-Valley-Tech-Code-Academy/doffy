@@ -23,9 +23,9 @@ export const GET = async () => {
 
   try {
     // const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
-    // const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
+    const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
     // const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
-    const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
+    // const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
 
     await webScraper.closeScraper();
 
@@ -42,13 +42,14 @@ export const GET = async () => {
           //   }
           // }
           
-      for (const jobResults of diceResults) {
+      for (const jobResults of indeedResults) {
         await db.insert(jobs).values({
           title: jobResults.title,
           company: jobResults.company,
           location: jobResults.location,
           origin: jobResults.origin,
           pay: jobResults.pay,
+          url: jobResults.url,
           description: jobResults.description,
         });
       }

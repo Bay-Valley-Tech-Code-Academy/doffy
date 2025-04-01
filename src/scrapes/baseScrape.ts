@@ -39,14 +39,22 @@ export class WebScraper {
     }
   }
 
-  async getNthElementText(currentPage: Page, locatorTags: string, nth: number) {
+  async getNthElementText(locatorOrigin: Page, locatorTags: string, nth: number) {
     try {
-      const elementText = await currentPage.locator(locatorTags).nth(nth).innerText();
+      const elementText = await locatorOrigin.locator(locatorTags).nth(nth).innerText();
 
       return elementText
     } catch {
       return "N/A";
     }
+  }
+
+  checkForNumber(textString: string) {
+    for (const num of "1234567890".split("")) {
+      if (textString.includes(num)) return true;
+    }
+
+    return false;
   }
 
   async closeScraper() {

@@ -16,7 +16,9 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
       .all();
 
     const jobInfo: ScrapedJobInfo[] = [];
-    for (const job of jobSearchPane) {
+    // for (const job of jobSearchPane) {
+    for (let i = 0; i < 5; i++) {
+      const job = jobSearchPane[i];
       await job.scrollIntoViewIfNeeded();
       await job.click({ button: 'left' });
 
@@ -28,9 +30,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
 
       // Evaluates if the company name functions as a link, if so the text from the a element is grabbed, else the text from the span is grabbed.
       const jobCompany = await indeedPage
-        .locator(
-          'div.jobsearch-InfoHeaderContainer > div > div > div > span > a.jobsearch-JobInfoHeader-companyNameLink',
-        )
+        .locator('div.jobsearch-InfoHeaderContainer > div > div > div > span > a')
         .or(
           indeedPage
             .locator('div.jobsearch-InfoHeaderContainer > div > div > div > span')
@@ -49,14 +49,29 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         .first()
         .innerText();
 
+      let jobPay = await webScraper.getNthElementText(
+        indeedPage,
+        'div.js-match-insights-provider-16m282m > div.js-match-insights-provider-e6s05i > div.js-match-insights-provider-kyg8or > ul > li > div > div > div > span',
+        0,
+      );
+
+      const isValidPay = webScraper.checkForNumber(jobPay);
+
+      if (!isValidPay) jobPay = 'N/A';
+
       const jobDescription = await indeedPage
         .locator('div.jobsearch-JobComponent-description > div#jobDescriptionText')
         .allInnerTexts();
+
+      const pageURL = indeedPage.url();
 
       const currentJob: ScrapedJobInfo = {
         title: jobTitle,
         company: jobCompany,
         location: jobLocation,
+        origin: 'indeed.com',
+        pay: jobPay,
+        url: pageURL,
         description: jobDescription.join('|'),
       };
 

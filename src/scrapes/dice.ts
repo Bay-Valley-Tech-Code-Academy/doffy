@@ -40,17 +40,21 @@ const scrapeDice = async (webScraper: WebScraper) => {
         .innerText();
 
       // Gets the job pay tab which is always the second tab so long as there are three overview tabs on the page
-      let jobPay: string | null = await webScraper.getNthElementText(
+      let jobPay: string = await webScraper.getNthElementText(
         currentTab,
         'div.job-overview_detailContainer__TpXMD > div.job-overview_chipContainer__E4zOO > div > div.chip_chip__cYJs6 > span',
         1,
       );
 
-      if (!jobPay.includes('$')) jobPay = 'N/A';
+      const isValidPay = webScraper.checkForNumber(jobPay);
+
+      if (!isValidPay) jobPay = 'N/A';
 
       const jobDescription = await currentTab
         .getByTestId('jobDescriptionHtml')
         .allInnerTexts();
+
+      const pageURL = currentTab.url();
 
       const currentJob: ScrapedJobInfo = {
         title: jobTitle,
@@ -58,6 +62,7 @@ const scrapeDice = async (webScraper: WebScraper) => {
         location: jobLocation,
         origin: 'Dice.com',
         pay: jobPay,
+        url: pageURL,
         description: jobDescription.join('|'),
       };
 

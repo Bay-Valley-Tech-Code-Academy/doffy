@@ -6,5 +6,6 @@ export type ScrapedJobInfo = {
   origin: string;
   pay: string;
   description: string;
+  url: string;
   date_collected?: string;
 };
