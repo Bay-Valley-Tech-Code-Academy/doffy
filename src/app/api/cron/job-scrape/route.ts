@@ -42,13 +42,7 @@ export const GET = async () => {
       }
     }
 
-    return new NextResponse(
-      ResponseBuilder({
-        data: null,
-        success: true,
-        message: 'Jobs added to database.',
-      }),
-    );
+    return new NextResponse(ResponseBuilder(null, 'Jobs added to database.', false));
   } catch (err) {
     await webScraper.closeScraper();
     console.error('error running scrapes', err);

@@ -10,11 +10,7 @@ export const GET = async () => {
     const jobResults = await db.select().from(jobs);
 
     return new NextResponse(
-      ResponseBuilder({
-        data: jobResults,
-        success: true,
-        message: "Jobs pulled from database."
-      }),
+      ResponseBuilder(jobResults, 'Jobs added to database.', false),
     );
   } catch (err) {
     console.error('error pulling job data', err);
