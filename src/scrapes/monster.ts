@@ -49,7 +49,7 @@ const scrapeMonster = async (webScraper: WebScraper) => {
         title: jobTitle,
         company: jobCompany,
         location: jobLocation,
-        origin: 'Dice.com',
+        origin: 'monster.com',
         pay: jobPay,
         url: pageURL,
         description: jobDescription.join('|'),
