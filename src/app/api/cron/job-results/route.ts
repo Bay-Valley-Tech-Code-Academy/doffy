@@ -7,7 +7,7 @@ import type { ScrapedJobInfo } from '~/scrapes/webScraperTypes';
 
 export const GET = async () => {
   try {
-    const jobResults: ScrapedJobInfo[] = await db.select().from(jobs);
+    const jobResults = await db.select().from(jobs);
 
     return new NextResponse(
       ResponseBuilder({

@@ -36,6 +36,9 @@ export const GET = async () => {
             title: jobResults.title,
             company: jobResults.company,
             location: jobResults.location,
+            pay: jobResults.pay,
+            origin: jobResults.origin,
+            url: jobResults.url,
             description: jobResults.description,
           });
         }

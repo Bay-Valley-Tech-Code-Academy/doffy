@@ -29,6 +29,16 @@ export class WebScraper {
     }
   }
 
+  async getElement(currentPage: Page, locatorTags: string) {
+    try {
+      const elementText = currentPage.locator(locatorTags);
+
+      return elementText;
+    } catch {
+      return null;
+    }
+  }
+
   async getElementText(currentPage: Page, locatorTags: string) {
     try {
       const elementText = await currentPage.locator(locatorTags).innerText();
