@@ -23,8 +23,8 @@ export const GET = async () => {
 
   try {
     // const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
-    const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
-    // const monster: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
+    // const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
+    const monsterResults: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
     // const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
 
     await webScraper.closeScraper();
@@ -42,7 +42,7 @@ export const GET = async () => {
           //   }
           // }
           
-      for (const jobResults of indeedResults) {
+      for (const jobResults of monsterResults) {
         await db.insert(jobs).values({
           title: jobResults.title,
           company: jobResults.company,

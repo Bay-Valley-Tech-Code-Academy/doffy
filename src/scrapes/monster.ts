@@ -34,14 +34,24 @@ const scrapeMonster = async (webScraper: WebScraper) => {
         .first()
         .innerText();
 
+      const jobPay = await webScraper.getElementText(
+        monsterPage,
+        'ul.header-style__JobViewHeaderTagsContainer-sc-ccb9c1ec-11 > li > div.indexmodern__TagComponent-sc-6pvrvp-0 > span.indexmodern__TagLabel-sc-6pvrvp-1',
+      );
+
       const jobDescription = await monsterPage
         .getByTestId('svx-description-container-inner')
         .allInnerTexts();
+
+      const pageURL = monsterPage.url();
 
       const currentJob: ScrapedJobInfo = {
         title: jobTitle,
         company: jobCompany,
         location: jobLocation,
+        origin: 'Dice.com',
+        pay: jobPay,
+        url: pageURL,
         description: jobDescription.join('|'),
       };
 

@@ -49,6 +49,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         .first()
         .innerText();
 
+        // Currently not working, fails to grab the job pay element
       let jobPay = await webScraper.getNthElementText(
         indeedPage,
         'div.js-match-insights-provider-16m282m > div.js-match-insights-provider-e6s05i > div.js-match-insights-provider-kyg8or > ul > li > div > div > div > span',
