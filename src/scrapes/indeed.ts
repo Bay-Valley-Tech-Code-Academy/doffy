@@ -16,9 +16,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
       .all();
 
     const jobInfo: ScrapedJobInfo[] = [];
-    // for (const job of jobSearchPane) {
-    for (let i = 0; i < 5; i++) {
-      const job = jobSearchPane[i];
+    for (const job of jobSearchPane) {
       await job.scrollIntoViewIfNeeded();
       await job.click({ button: 'left' });
 
@@ -52,7 +50,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         // Currently not working, fails to grab the job pay element
       let jobPay = await webScraper.getNthElementText(
         indeedPage,
-        'div.js-match-insights-provider-16m282m > div.js-match-insights-provider-e6s05i > div.js-match-insights-provider-kyg8or > ul > li > div > div > div > span',
+        'div.js-match-insights-provider-16m282m > div.js-match-insights-provider-e6s05i > div.js-match-insights-provider-kyg8or > ul > li > div > div > div > div > span',
         0,
       );
 

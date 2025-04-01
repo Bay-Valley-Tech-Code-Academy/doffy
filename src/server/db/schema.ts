@@ -50,4 +50,10 @@ export const jobs = createTable('jobs', {
     withTimezone: true,
     precision: 6,
   }).defaultNow(),
+createdAt: timestamp('created_at', { withTimezone: true })
+.default(sql`CURRENT_TIMESTAMP`)
+.notNull(),
+updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(
+() => new Date(),
+),
 });
