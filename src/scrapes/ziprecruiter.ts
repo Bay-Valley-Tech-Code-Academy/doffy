@@ -12,7 +12,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
     const dialogPopUp = await zipRecruiterPage.getByRole('dialog').boundingBox();
     await zipRecruiterPage.mouse.click(dialogPopUp.x - 100, dialogPopUp.y);
     const jobInfo: ScrapedJobInfo[] = [];
-    let isNextPageAvailable = true;
+    const isNextPageAvailable = true;
 
     do {
       const jobSearchPane = await zipRecruiterPage
@@ -92,7 +92,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
 
       await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
-
+      const nextPageButton = await zipRecruiterPage.getByTitle("Next Page")
     } while (isNextPageAvailable);
 
     await zipRecruiterPage.close();

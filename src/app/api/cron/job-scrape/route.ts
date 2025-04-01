@@ -29,18 +29,15 @@ export const GET = async () => {
 
     await webScraper.closeScraper();
 
-    for (const scraperResults of [zipRecruiter, indeedResults, monsterResults, diceResults]) {
+    for (const scraperResults of [
+      zipRecruiter,
+      indeedResults,
+      monsterResults,
+      diceResults,
+    ]) {
       if (scraperResults !== null) {
         for (const jobResults of scraperResults) {
-          await db.insert(jobs).values({
-            title: jobResults.title,
-            company: jobResults.company,
-            location: jobResults.location,
-            pay: jobResults.pay,
-            origin: jobResults.origin,
-            url: jobResults.url,
-            description: jobResults.description,
-          });
+          await db.insert(jobs).values(jobResults);
         }
       }
     }
