@@ -71,7 +71,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         title: jobTitle,
         company: jobCompany,
         location: jobLocation,
-        origin: 'Dice.com',
+        origin: 'ziprecruiter.com',
         pay: jobPay,
         url: pageURL,
         description: jobDescription.join('|'),

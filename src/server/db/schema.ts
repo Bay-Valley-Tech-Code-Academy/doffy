@@ -46,14 +46,10 @@ export const jobs = createTable('jobs', {
   pay: varchar('pay', { length: 256 }),
   description: text('description'),
   url: text('url'),
-  date_collected: timestamp('date_collected', {
-    withTimezone: true,
-    precision: 6,
-  }).defaultNow(),
-createdAt: timestamp('created_at', { withTimezone: true })
-.default(sql`CURRENT_TIMESTAMP`)
-.notNull(),
-updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(
-() => new Date(),
-),
+  createdAt: timestamp('created_at', { withTimezone: true })
+  .default(sql`CURRENT_TIMESTAMP`)
+  .notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(
+  () => new Date(),
+  ),
 });
