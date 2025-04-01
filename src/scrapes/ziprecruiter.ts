@@ -54,11 +54,10 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         )
         .innerText();
 
-      // const variousInfo = await zipRecruiterPage
-      //   .locator(
-      //     'div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md',
-      //   )
-      //   .allInnerTexts();
+      let jobPay = await webScraper.getNthElementText(zipRecruiterPage, "div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md", 0)
+
+        const isValidPay = webScraper.checkForNumber(jobPay);
+      if (!isValidPay) jobPay = 'N/A';
 
       const jobDescription = await zipRecruiterPage
         .locator(
@@ -66,10 +65,15 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         )
         .allInnerTexts();
 
+      const pageURL = zipRecruiterPage.url();
+
       const currentJob: ScrapedJobInfo = {
         title: jobTitle,
         company: jobCompany,
         location: jobLocation,
+        origin: 'Dice.com',
+        pay: jobPay,
+        url: pageURL,
         description: jobDescription.join('|'),
       };
 
