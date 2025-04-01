@@ -42,5 +42,11 @@ export const jobs = createTable('jobs', {
   title: varchar('title', { length: 256 }),
   company: varchar('company', { length: 256 }),
   location: varchar('location', { length: 256 }),
+  origin: varchar('origin', { length: 256 }),
+  pay: varchar('pay', { length: 256 }),
   description: text('description'),
+  date_collected: timestamp('date_collected', {
+    withTimezone: true,
+    precision: 6,
+  }).defaultNow(),
 });

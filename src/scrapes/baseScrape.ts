@@ -1,4 +1,4 @@
-import type { Browser } from 'patchright';
+import type { Browser, Page } from 'patchright';
 
 export class WebScraper {
   _mainBrowser: Browser | null;
@@ -26,6 +26,26 @@ export class WebScraper {
     } catch (error) {
       console.error(error);
       await this.closeScraper();
+    }
+  }
+
+  async getElementText(currentPage: Page, locatorTags: string) {
+    try {
+      const elementText = await currentPage.locator(locatorTags).innerText();
+
+      return elementText
+    } catch {
+      return null;
+    }
+  }
+
+  async getNthElementText(currentPage: Page, locatorTags: string, nth: number) {
+    try {
+      const elementText = await currentPage.locator(locatorTags).nth(nth).innerText();
+
+      return elementText
+    } catch {
+      return "N/A";
     }
   }
 

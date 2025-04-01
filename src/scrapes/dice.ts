@@ -10,42 +10,62 @@ const scrapeDice = async (webScraper: WebScraper) => {
 
   try {
     await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
-    
-    const jobSearchCards = await dicePage.locator("a.card-title-link").all();
-    
+
+    const jobSearchCards = await dicePage.locator('a.card-title-link').all();
+
     const jobResults: ScrapedJobInfo[] = [];
 
     for (const job of jobSearchCards) {
-        await job.scrollIntoViewIfNeeded();
-        await job.click({button: 'left'})
-        
-        await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
+      await job.scrollIntoViewIfNeeded();
+      await job.click({ button: 'left' });
 
-        // Gets the newly opened tab.
-        const currentTabs = dicePage.context().pages();
-        const currentTab = currentTabs[currentTabs.length - 1];
-        
-        const jobTitle = await currentTab.locator("h1.flex.flex-wrap.text-center.ml-auto").innerText();
+      await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
 
-        const jobCompany = await currentTab.locator("ul.companyInfo > li.mr-1 > a").innerText();
+      // Gets the newly opened tab.
+      const currentTabs = dicePage.context().pages();
+      const currentTab = currentTabs[currentTabs.length - 1];
 
-        // Grabs the first instance of the li element containing this class, it will always be the li element containing the company name
-        const jobLocation = await currentTab.locator("li.job-header_jobDetail__ZGjiQ").first().innerText();
+      const jobTitle = await currentTab
+        .locator('h1.flex.flex-wrap.text-center.ml-auto')
+        .innerText();
 
-        const jobDescription = await currentTab.getByTestId("jobDescriptionHtml").allInnerTexts();
+      const jobCompany = await currentTab
+        .locator('ul.companyInfo > li.mr-1 > a')
+        .innerText();
 
-        const currentJob: ScrapedJobInfo = {
-          title: jobTitle,
-          company: jobCompany,
-          location: jobLocation,
-          description: jobDescription.join("|"),
-        };
+      // Grabs the first instance of the li element containing this class, it will always be the li element containing the company name
+      const jobLocation = await currentTab
+        .locator('li.job-header_jobDetail__ZGjiQ')
+        .first()
+        .innerText();
 
-        jobResults.push(currentJob);
+      // Gets the job pay tab which is always the second tab so long as there are three overview tabs on the page
+      let jobPay: string | null = await webScraper.getNthElementText(
+        currentTab,
+        'div.job-overview_detailContainer__TpXMD > div.job-overview_chipContainer__E4zOO > div > div.chip_chip__cYJs6 > span',
+        1,
+      );
 
-        await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
+      if (!jobPay.includes('$')) jobPay = 'N/A';
 
-        await currentTab.close();
+      const jobDescription = await currentTab
+        .getByTestId('jobDescriptionHtml')
+        .allInnerTexts();
+
+      const currentJob: ScrapedJobInfo = {
+        title: jobTitle,
+        company: jobCompany,
+        location: jobLocation,
+        origin: 'Dice.com',
+        pay: jobPay,
+        description: jobDescription.join('|'),
+      };
+
+      jobResults.push(currentJob);
+
+      await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
+
+      await currentTab.close();
     }
 
     await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
