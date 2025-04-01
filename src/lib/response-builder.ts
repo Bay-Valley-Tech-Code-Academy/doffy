@@ -1,11 +1,13 @@
-interface Response {
-  data: any;
-  msg: string;
-  err: boolean;
-}
+type ResponseData<T = unknown> = T[] | Record<string, T>;
+
+// interface Response {
+//   data: ResponseData;
+//   msg: string;
+//   err: boolean;
+// }
 
 interface MainResponseBuilderOptions {
-  error?: any;
+  error?: Error;
   log?: boolean;
 }
 
@@ -18,7 +20,7 @@ export interface ResponseBuilderData<T> {
 
 class ResponseBuilderOptions {
   error: Error = null;
-  log: boolean = false;
+  log = false;
 
   constructor(options: MainResponseBuilderOptions) {
     this.error = options ? options.error : this.error;
@@ -27,11 +29,11 @@ class ResponseBuilderOptions {
 }
 
 export const ResponseBuilder = (
-  data: any,
+  data: ResponseData,
   msg: string = null,
-  err: boolean = false,
+  err = false,
   builderOptions?: MainResponseBuilderOptions,
-): Response | any => {
+): string => {
   const options = new ResponseBuilderOptions(builderOptions);
 
   if (err) {
@@ -40,7 +42,7 @@ export const ResponseBuilder = (
     }
 
     if (options.error) {
-      throw err;
+      throw options.error;
     }
   }
 
