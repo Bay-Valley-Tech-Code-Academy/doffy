@@ -33,7 +33,7 @@ export class WebScraper {
     try {
       const elementText = await currentPage.locator(locatorTags).innerText();
 
-      return elementText
+      return elementText;
     } catch {
       return null;
     }
@@ -43,14 +43,14 @@ export class WebScraper {
     try {
       const elementText = await locatorOrigin.locator(locatorTags).nth(nth).innerText();
 
-      return elementText
+      return elementText;
     } catch {
-      return "N/A";
+      return 'N/A';
     }
   }
 
   checkForNumber(textString: string) {
-    for (const num of "1234567890".split("")) {
+    for (const num of '1234567890'.split('')) {
       if (textString.includes(num)) return true;
     }
 

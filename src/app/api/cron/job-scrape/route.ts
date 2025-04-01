@@ -22,37 +22,25 @@ export const GET = async () => {
   const webScraper = new WebScraper(mainBrowser);
 
   try {
-    // const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
+    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
     const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
-    // const monsterResults: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
-    // const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
+    const monsterResults: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
+    const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
 
     await webScraper.closeScraper();
 
-    // for (const scraperResults of [zipRecruiter, indeedResults, monster, diceResults]) {
-    //   if (scraperResults !== null) {
-        // for (const jobResults of scraperResults) {
-        //   await db.insert(jobs).values({
-        //     title: jobResults.title,
-        //     company: jobResults.company,
-        //     location: jobResults.location,
-        //     description: jobResults.description,
-        //   });
-          //     }
-          //   }
-          // }
-          
-      for (const jobResults of indeedResults) {
-        await db.insert(jobs).values({
-          title: jobResults.title,
-          company: jobResults.company,
-          location: jobResults.location,
-          origin: jobResults.origin,
-          pay: jobResults.pay,
-          url: jobResults.url,
-          description: jobResults.description,
-        });
+    for (const scraperResults of [zipRecruiter, indeedResults, monsterResults, diceResults]) {
+      if (scraperResults !== null) {
+        for (const jobResults of scraperResults) {
+          await db.insert(jobs).values({
+            title: jobResults.title,
+            company: jobResults.company,
+            location: jobResults.location,
+            description: jobResults.description,
+          });
+        }
       }
+    }
 
     return new NextResponse(
       ResponseBuilder({

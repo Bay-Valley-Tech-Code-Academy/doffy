@@ -54,9 +54,13 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         )
         .innerText();
 
-      let jobPay = await webScraper.getNthElementText(zipRecruiterPage, "div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md", 0)
+      let jobPay = await webScraper.getNthElementText(
+        zipRecruiterPage,
+        'div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md',
+        0,
+      );
 
-        const isValidPay = webScraper.checkForNumber(jobPay);
+      const isValidPay = webScraper.checkForNumber(jobPay);
       if (!isValidPay) jobPay = 'N/A';
 
       const jobDescription = await zipRecruiterPage

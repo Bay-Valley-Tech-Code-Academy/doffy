@@ -47,9 +47,7 @@ export const jobs = createTable('jobs', {
   description: text('description'),
   url: text('url'),
   createdAt: timestamp('created_at', { withTimezone: true })
-  .default(sql`CURRENT_TIMESTAMP`)
-  .notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(
-  () => new Date(),
-  ),
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
 });
