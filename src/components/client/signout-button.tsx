@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { Button } from './button';
+import { Button } from '../ui/button';
 
 export function SignOutButton({ href }: { href: string }) {
   const router = useRouter();
