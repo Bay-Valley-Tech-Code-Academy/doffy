@@ -7,13 +7,12 @@ const scrapeDice = async (webScraper: WebScraper) => {
   const dicePage = await webScraper.navigateToPage(
     'https://www.dice.com/jobs?q=web%20developer&location=Modesto,%20CA,%20USA&latitude=37.6392595&longitude=-120.9970014&countryCode=US&locationPrecision=City&radius=30&radiusUnit=mi&page=1&pageSize=100&language=en',
   );
+  const jobResults: ScrapedJobInfo[] = [];
 
   try {
     await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
 
     const jobSearchCards = await dicePage.locator('a.card-title-link').all();
-
-    const jobResults: ScrapedJobInfo[] = [];
 
     for (const job of jobSearchCards) {
       await job.scrollIntoViewIfNeeded();
@@ -80,7 +79,7 @@ const scrapeDice = async (webScraper: WebScraper) => {
   } catch (err) {
     console.error('[ERROR]: scrapeIndeed', err);
     await dicePage.close();
-    return null;
+    return jobResults;
   }
 };
 

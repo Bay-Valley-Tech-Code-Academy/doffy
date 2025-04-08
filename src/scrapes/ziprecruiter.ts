@@ -5,6 +5,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
   const zipRecruiterPage = await webScraper.navigateToPage(
     'https://www.ziprecruiter.com/jobs-search?search=programmer&location=Modesto%2C+CA&refine_by_location_type=&radius=25&days=&refine_by_employment=employment_type%3Aall&refine_by_salary=&refine_by_salary_ceil=&lvk=tX5hI6CC3FTEfkefpJKSMw.--NmEAx2jsc',
   );
+  const jobInfo: ScrapedJobInfo[] = [];
 
   try {
     await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());
@@ -13,7 +14,6 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
     await zipRecruiterPage.mouse.click(dialogPopUp.x - 100, dialogPopUp.y);
     const jobSearchPaneSelector =
       'div.job_results_two_pane.flex.flex-col.items-center.overflow-y-scroll.overflow-x-hidden.divide-y-1.divide-divider.max-h-fit.w-lvw > div.job_result_two_pane.relative.h-full';
-    const jobInfo: ScrapedJobInfo[] = [];
     let isNextPageAvailable = true;
 
     do {
@@ -111,7 +111,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
   } catch (error) {
     console.error(error);
     await zipRecruiterPage.close();
-    return null;
+    return jobInfo;
   }
 };
 

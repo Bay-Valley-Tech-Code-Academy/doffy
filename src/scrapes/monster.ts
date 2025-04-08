@@ -5,6 +5,7 @@ const scrapeMonster = async (webScraper: WebScraper) => {
   const monsterPage = await webScraper.navigateToPage(
     'https://www.monster.com/jobs/search?q=Web+Developer&where=Modesto%2C+CA&page=1&so=m.s.sh',
   );
+  const jobInfo: ScrapedJobInfo[] = [];
 
   try {
     await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
@@ -13,7 +14,6 @@ const scrapeMonster = async (webScraper: WebScraper) => {
 
     await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
 
-    const jobInfo: ScrapedJobInfo[] = [];
     for (const job of jobSearchPane) {
       await job.scrollIntoViewIfNeeded();
       await job.click({ button: 'left' });
@@ -64,7 +64,7 @@ const scrapeMonster = async (webScraper: WebScraper) => {
   } catch (error) {
     console.error(error);
     await monsterPage.close();
-    return null;
+    return jobInfo;
   }
 };
 
