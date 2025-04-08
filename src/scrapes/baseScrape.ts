@@ -41,11 +41,17 @@ export class WebScraper {
 
   async getElementText(currentPage: Page, locatorTags: string) {
     try {
-      const elementText = await currentPage.locator(locatorTags).innerText();
+      const elementLocator = currentPage.locator(locatorTags);
 
-      return elementText;
+      if (await elementLocator.isVisible()) {
+        const elementText = await elementLocator.innerText();
+
+        return elementText;
+      } else {
+        return 'N/A';
+      }
     } catch {
-      return null;
+      return 'N/A';
     }
   }
 
@@ -54,10 +60,10 @@ export class WebScraper {
       const elementLocator = locatorOrigin.locator(locatorTags).nth(nth);
 
       if (await elementLocator.isVisible()) {
-        const elementText = await locatorOrigin.locator(locatorTags).nth(nth).innerText();
+        const elementText = await elementLocator.innerText();
         return elementText;
       } else {
-        return "N/A"
+        return 'N/A';
       }
     } catch {
       return 'N/A';
