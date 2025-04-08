@@ -51,9 +51,14 @@ export class WebScraper {
 
   async getNthElementText(locatorOrigin: Page, locatorTags: string, nth: number) {
     try {
-      const elementText = await locatorOrigin.locator(locatorTags).nth(nth).innerText();
+      const elementLocator = locatorOrigin.locator(locatorTags).nth(nth);
 
-      return elementText;
+      if (await elementLocator.isVisible()) {
+        const elementText = await locatorOrigin.locator(locatorTags).nth(nth).innerText();
+        return elementText;
+      } else {
+        return "N/A"
+      }
     } catch {
       return 'N/A';
     }

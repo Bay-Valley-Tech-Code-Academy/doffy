@@ -22,18 +22,18 @@ export const GET = async () => {
   const webScraper = new WebScraper(mainBrowser);
 
   try {
-    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
+    // const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
     const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
-    const monsterResults: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
-    const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
+    // const monsterResults: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
+    // const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
 
     await webScraper.closeScraper();
 
     for (const scraperResults of [
-      zipRecruiter,
+      // zipRecruiter,
       indeedResults,
-      monsterResults,
-      diceResults,
+      // monsterResults,
+      // diceResults,
     ]) {
       if (scraperResults !== null) {
         for (const jobResults of scraperResults) {
