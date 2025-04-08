@@ -3,7 +3,7 @@ import type { ScrapedJobInfo } from './webScraperTypes';
 
 const scrapeZipRecruiter = async (webScraper: WebScraper) => {
   const zipRecruiterPage = await webScraper.navigateToPage(
-    'https://www.ziprecruiter.com/jobs-search?form=jobs-landing&search=Programming&location=Oakdale%2C+CA&lvk=BSzvspPKpdNhZ-Oz2ck87w.--NhWHNPoVg',
+    'https://www.ziprecruiter.com/jobs-search?search=programmer&location=Modesto%2C+CA&refine_by_location_type=&radius=25&days=&refine_by_employment=employment_type%3Aall&refine_by_salary=&refine_by_salary_ceil=&lvk=tX5hI6CC3FTEfkefpJKSMw.--NmEAx2jsc',
   );
 
   try {
