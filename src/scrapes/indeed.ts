@@ -1,5 +1,5 @@
 import type { WebScraper } from './baseScrape';
-import type { ScrapedJobInfo, ScraperResults } from './webScraperTypes';
+import type { ScrapedJobInfo } from './webScraperTypes';
 
 const scrapeIndeed = async (webScraper: WebScraper) => {
   const indeedPage = await webScraper.navigateToPage(
