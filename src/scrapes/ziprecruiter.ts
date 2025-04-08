@@ -107,11 +107,11 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
 
     await zipRecruiterPage.close();
 
-    return jobInfo;
+    return { jobResults: jobInfo, error: false };
   } catch (error) {
     console.error(error);
     await zipRecruiterPage.close();
-    return jobInfo;
+    return { jobResults: jobInfo, error: true };
   }
 };
 

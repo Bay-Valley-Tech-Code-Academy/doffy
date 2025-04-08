@@ -10,3 +10,8 @@ export type ScrapedJobInfo = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type ScraperResults = {
+  jobResults: ScrapedJobInfo[];
+  error: boolean;
+};

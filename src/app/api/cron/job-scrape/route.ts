@@ -9,7 +9,7 @@ import { scrapeDice } from '~/scrapes/dice';
 
 import { chromium } from 'patchright';
 import { WebScraper } from '~/scrapes/baseScrape';
-import type { ScrapedJobInfo } from '~/scrapes/webScraperTypes';
+import type { ScrapedJobInfo, ScraperResults } from '~/scrapes/webScraperTypes';
 
 import { db } from '~/server/db';
 import { jobs } from '~/server/db/schema';
@@ -22,23 +22,32 @@ export const GET = async () => {
   const webScraper = new WebScraper(mainBrowser);
 
   try {
-    const zipRecruiter: ScrapedJobInfo[] | null = await scrapeZipRecruiter(webScraper);
-    const indeedResults: ScrapedJobInfo[] | null = await scrapeIndeed(webScraper);
-    const monsterResults: ScrapedJobInfo[] | null = await scrapeMonster(webScraper);
-    const diceResults: ScrapedJobInfo[] | null = await scrapeDice(webScraper);
+    const scraperResultsArray: ScrapedJobInfo[][] = [];
+    for (const scrape of [scrapeZipRecruiter, scrapeIndeed, scrapeMonster, scrapeDice]) {
+      let scrapeAttempts = 0;
+      let hasErrorOccurred: boolean;
+      let scraperResults: ScraperResults;
+
+      // Reruns the scrape if an error occurs
+      // Attempts to do so up to three times
+      do {
+        hasErrorOccurred = false;
+        scraperResults = await scrape(webScraper);
+
+        if (scraperResults.error) {
+          hasErrorOccurred = true;
+          scrapeAttempts++;
+        }
+      } while (hasErrorOccurred && scrapeAttempts < 3);
+
+      scraperResultsArray.push(scraperResults.jobResults);
+    }
 
     await webScraper.closeScraper();
 
-    for (const scraperResults of [
-      zipRecruiter,
-      indeedResults,
-      monsterResults,
-      diceResults,
-    ]) {
-      if (scraperResults !== null) {
-        for (const jobResults of scraperResults) {
-          await db.insert(jobs).values(jobResults);
-        }
+    for (const jobsArray of scraperResultsArray) {
+      for (const jobResults of jobsArray) {
+        await db.insert(jobs).values(jobResults);
       }
     }
 

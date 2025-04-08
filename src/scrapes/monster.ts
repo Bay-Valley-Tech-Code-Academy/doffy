@@ -60,11 +60,11 @@ const scrapeMonster = async (webScraper: WebScraper) => {
 
     await monsterPage.close();
 
-    return jobInfo;
+    return { jobResults: jobInfo, error: false };
   } catch (error) {
     console.error(error);
     await monsterPage.close();
-    return jobInfo;
+    return { jobResults: jobInfo, error: true };
   }
 };
 

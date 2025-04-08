@@ -1,5 +1,5 @@
 import type { WebScraper } from './baseScrape';
-import type { ScrapedJobInfo } from './webScraperTypes';
+import type { ScrapedJobInfo, ScraperResults } from './webScraperTypes';
 
 const scrapeIndeed = async (webScraper: WebScraper) => {
   const indeedPage = await webScraper.navigateToPage(
@@ -93,11 +93,11 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
     await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
     await indeedPage.close();
 
-    return jobInfo;
+    return { jobResults: jobInfo, error: false };
   } catch (err) {
     console.error('[ERROR]: scrapeIndeed', err);
     await indeedPage.close();
-    return jobInfo;
+    return { jobResults: jobInfo, error: true };
   }
 };
 
