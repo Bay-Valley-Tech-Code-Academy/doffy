@@ -1,8 +1,15 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from 'drizzle-orm';
-import { index, integer, pgTableCreator, text, varchar, timestamp } from 'drizzle-orm/pg-core';
+import { max, sql } from 'drizzle-orm';
+import {
+  index,
+  integer,
+  pgTableCreator,
+  text,
+  varchar,
+  timestamp,
+} from 'drizzle-orm/pg-core';
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -23,9 +30,24 @@ export const users = createTable(
     password: text('password').notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
-      .notNull()
+      .notNull(),
   },
   (example) => ({
     emailIndex: index('email_idx').on(example.email),
   }),
 );
+
+export const jobs = createTable('jobs', {
+  id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
+  title: varchar('title', { length: 256 }),
+  company: varchar('company', { length: 256 }),
+  location: varchar('location', { length: 256 }),
+  origin: varchar('origin', { length: 256 }),
+  pay: varchar('pay', { length: 256 }),
+  description: text('description'),
+  url: text('url'),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
+});

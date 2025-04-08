@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { LogOut, User } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { Separator } from '~/components/ui/separator';
-import { SignOutButton } from '~/components/ui/signout-button';
+import { SignOutButton } from '~/components/client/signout-button';
 
 export default function SettingsPage() {
   interface AccountSettingsData {
