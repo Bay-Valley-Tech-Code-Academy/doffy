@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} h-full w-full`}>
       <body className="w-full">
-        <NavigationMenu className="p-3 h-[55px]">
+        <NavigationMenu className="h-[55px] p-3">
           <div className="w-full">
             <NavigationMenuList>
               <div className="flex w-full justify-between">
