@@ -1,5 +1,6 @@
 import type { WebScraper } from './baseScrape';
 import type { ScrapedJobInfo } from './webScraperTypes';
+import { expect } from 'patchright/test';
 
 const scrapeIndeed = async (webScraper: WebScraper) => {
   const indeedPage = await webScraper.navigateToPage(
@@ -8,45 +9,50 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
   const jobInfo: ScrapedJobInfo[] = [];
 
   try {
-    await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
     const jobSearchPaneSelector =
       'div.job_seen_beacon > table > tbody > tr > td.resultContent';
     let isNextPageAvailable = true;
 
     do {
       await indeedPage.waitForSelector(jobSearchPaneSelector, { state: 'attached' });
+      await expect(indeedPage.locator(jobSearchPaneSelector).first()).toBeAttached();
       const jobSearchPane = await indeedPage.locator(jobSearchPaneSelector).all();
 
       for (const job of jobSearchPane) {
-        await job.scrollIntoViewIfNeeded();
+        await expect(job).toBeAttached();
+        await job.scrollIntoViewIfNeeded({ timeout: 3000 });
+        await expect(job).toBeInViewport();
         await job.click({ button: 'left' });
 
-        await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
+        await indeedPage.waitForLoadState('networkidle');
 
         const jobTitle = await indeedPage
           .locator('div.jobsearch-InfoHeaderContainer > div > div > h2')
           .innerText();
 
-        // Evaluates if the company name functions as a link, if so the text from the a element is grabbed, else the text from the span is grabbed.
-        const jobCompany = await indeedPage
-          .locator('div.jobsearch-InfoHeaderContainer > div > div > div > span > a')
-          .or(
-            indeedPage
-              .locator('div.jobsearch-InfoHeaderContainer > div > div > div > span')
-              .first(),
-          )
-          .first()
-          .innerText();
+        let jobCompany = await webScraper.getElement(
+          indeedPage,
+          'div.jobsearch-InfoHeaderContainer > div > div > div > span > a',
+        );
 
-        const jobLocation = await indeedPage
-          .locator('div.jobsearch-InfoHeaderContainer > div > div > div > div > div')
-          .or(
-            indeedPage.locator(
-              'div.jobsearch-InfoHeaderContainer > div > div > div > div > div > div',
-            ),
-          )
-          .first()
-          .innerText();
+        if (jobCompany === null) {
+          jobCompany = await webScraper.getElement(
+            indeedPage,
+            'div.jobsearch-InfoHeaderContainer > div > div > div > span',
+          );
+        }
+
+        let jobLocation = await webScraper.getElement(
+          indeedPage,
+          'div.jobsearch-InfoHeaderContainer > div > div > div > div > div',
+        );
+
+        if (jobLocation === null) {
+          jobLocation = await webScraper.getElement(
+            indeedPage,
+            'div.jobsearch-InfoHeaderContainer > div > div > div > div > div > div',
+          );
+        }
 
         let jobPay = await webScraper.getNthElementText(
           indeedPage,
@@ -77,20 +83,17 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         jobInfo.push(currentJob);
       }
 
-      await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
-
       const nextPageElement = indeedPage.getByTestId('pagination-page-next');
 
       if (await nextPageElement.isVisible()) {
         await nextPageElement.scrollIntoViewIfNeeded();
         await nextPageElement.click({ button: 'left' });
-        await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
+        await indeedPage.waitForLoadState('networkidle');
       } else {
         isNextPageAvailable = false;
       }
     } while (isNextPageAvailable);
 
-    await indeedPage.waitForTimeout(webScraper.getRandomTimeInterval());
     await indeedPage.close();
 
     return { jobResults: jobInfo, error: false };

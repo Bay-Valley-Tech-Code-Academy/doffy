@@ -7,20 +7,11 @@ export class WebScraper {
     this._mainBrowser = mainBrowser;
   }
 
-  getRandomTimeInterval() {
-    // Minimum time returned is 3 seconds or 3000 milliseconds.
-    return Math.floor(Math.random() * 2000 + 3000);
-  }
-
   async navigateToPage(searchURL: string) {
     try {
       const mainPage = await this._mainBrowser.newPage();
 
-      await mainPage.waitForTimeout(this.getRandomTimeInterval());
-
-      await mainPage.goto(searchURL, { waitUntil: 'networkidle' });
-
-      await mainPage.waitForTimeout(this.getRandomTimeInterval());
+      await mainPage.goto(searchURL, { waitUntil: 'load' });
 
       return mainPage;
     } catch (error) {
@@ -29,9 +20,9 @@ export class WebScraper {
     }
   }
 
-  async getElement(currentPage: Page, locatorTags: string) {
+  async getElement(currentPage: Page, locatorTags: string): Promise<string | null> {
     try {
-      const elementText = currentPage.locator(locatorTags);
+      const elementText = await currentPage.locator(locatorTags).innerText({timeout: 5000});
 
       return elementText;
     } catch {

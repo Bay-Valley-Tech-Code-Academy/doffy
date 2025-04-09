@@ -1,5 +1,6 @@
 import type { WebScraper } from './baseScrape';
 import type { ScrapedJobInfo } from './webScraperTypes';
+import { expect } from 'patchright/test';
 
 const scrapeZipRecruiter = async (webScraper: WebScraper) => {
   const zipRecruiterPage = await webScraper.navigateToPage(
@@ -8,10 +9,12 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
   const jobInfo: ScrapedJobInfo[] = [];
 
   try {
-    await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());
+    const dialogPopUp = zipRecruiterPage.getByRole('dialog');
+    await zipRecruiterPage.getByRole('dialog').waitFor({ state: 'visible' });
 
-    const dialogPopUp = await zipRecruiterPage.getByRole('dialog').boundingBox();
-    await zipRecruiterPage.mouse.click(dialogPopUp.x - 100, dialogPopUp.y);
+    await expect(dialogPopUp).toBeVisible();
+    const boundingBox = await dialogPopUp.boundingBox();
+    await zipRecruiterPage.mouse.click(boundingBox.x - 100, boundingBox.y);
     const jobSearchPaneSelector =
       'div.job_results_two_pane.flex.flex-col.items-center.overflow-y-scroll.overflow-x-hidden.divide-y-1.divide-divider.max-h-fit.w-lvw > div.job_result_two_pane.relative.h-full';
     let isNextPageAvailable = true;
@@ -20,28 +23,25 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
       await zipRecruiterPage.waitForSelector(jobSearchPaneSelector, {
         state: 'attached',
       });
+
+      await expect(
+        zipRecruiterPage.locator(jobSearchPaneSelector).first(),
+      ).toBeAttached();
       const jobSearchPane = await zipRecruiterPage.locator(jobSearchPaneSelector).all();
 
       for (const job of jobSearchPane) {
-        await job
-          .locator(
-            ' article.group.flex.w-full.flex-col.text-primary > div > div > div.mb-12.flex.flex-col.gap-12 > div > div > h2',
-          )
-          .scrollIntoViewIfNeeded();
+        await expect(job).toBeAttached();
 
-        await job
-          .locator(
-            ' article.group.flex.w-full.flex-col.text-primary > div > div > div.mb-12.flex.flex-col.gap-12 > div > div > h2',
-          )
-          .click();
+        const jobElementSelector =
+          'article.group.flex.w-full.flex-col.text-primary > div > div > div.mb-12.flex.flex-col.gap-12 > div > div > h2';
 
-        await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());
+        await job.locator(jobElementSelector).scrollIntoViewIfNeeded({ timeout: 3000 });
 
-        await zipRecruiterPage
-          .locator(
-            'div.grid > div.grid.gap-y-8 > h1.font-bold.text-primary.text-header-md',
-          )
-          .scrollIntoViewIfNeeded();
+        await expect(job.locator(jobElementSelector)).toBeInViewport();
+
+        await job.locator(jobElementSelector).click();
+
+        await zipRecruiterPage.waitForLoadState('networkidle');
 
         const jobTitle = await zipRecruiterPage
           .locator(
@@ -91,15 +91,16 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
         jobInfo.push(currentJob);
       }
 
-      await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());
-
       const nextPageElement = zipRecruiterPage.getByTitle('Next Page');
       const nextPageElementType = await nextPageElement.getAttribute('type');
 
       if (nextPageElementType !== 'button') {
+        await nextPageElement.waitFor({ state: 'visible' });
+        await expect(nextPageElement).toBeVisible();
         await nextPageElement.scrollIntoViewIfNeeded();
+        await expect(nextPageElement).toBeInViewport();
         await nextPageElement.click({ button: 'left' });
-        await zipRecruiterPage.waitForTimeout(webScraper.getRandomTimeInterval());
+        await zipRecruiterPage.waitForLoadState('networkidle');
       } else {
         isNextPageAvailable = false;
       }
