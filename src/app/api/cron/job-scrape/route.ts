@@ -23,7 +23,7 @@ export const GET = async () => {
 
   try {
     const scraperResultsArray: ScrapedJobInfo[][] = [];
-    for (const scrape of [scrapeMonster]) {
+    for (const scrape of [scrapeDice]) {
     // for (const scrape of [scrapeZipRecruiter, scrapeIndeed, scrapeMonster, scrapeDice]) {
       let scrapeAttempts = 0;
       let hasErrorOccurred: boolean;

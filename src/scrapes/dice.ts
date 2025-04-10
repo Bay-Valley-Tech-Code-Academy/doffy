@@ -1,5 +1,6 @@
 // https://medium.com/@seotanvirbd/scraping-indeed-com-a-step-by-step-guide-using-playwright-and-beautifulsoup-bcd55ac921d2
 
+import { expect } from 'patchright/test';
 import type { WebScraper } from './baseScrape';
 import type { ScrapedJobInfo } from './webScraperTypes';
 
@@ -8,21 +9,25 @@ const scrapeDice = async (webScraper: WebScraper) => {
     'https://www.dice.com/jobs?q=web%20developer&location=Modesto,%20CA,%20USA&latitude=37.6392595&longitude=-120.9970014&countryCode=US&locationPrecision=City&radius=30&radiusUnit=mi&page=1&pageSize=100&language=en',
   );
   const jobInfo: ScrapedJobInfo[] = [];
+  const jobSearchCardsSelector = 'a.card-title-link';
 
   try {
-    await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
-
-    const jobSearchCards = await dicePage.locator('a.card-title-link').all();
+    await dicePage.waitForSelector(jobSearchCardsSelector, { state: 'attached' });
+    await expect(dicePage.locator(jobSearchCardsSelector).first()).toBeAttached();
+    await dicePage.waitForSelector(jobSearchCardsSelector, { state: 'visible' });
+    await expect(dicePage.locator(jobSearchCardsSelector).first()).toBeVisible();
+    const jobSearchCards = await dicePage.locator(jobSearchCardsSelector).all();
 
     for (const job of jobSearchCards) {
-      await job.scrollIntoViewIfNeeded();
+      await expect(job).toBeAttached();
+      await job.scrollIntoViewIfNeeded({ timeout: 3000 });
+      await expect(job).toBeInViewport();
       await job.click({ button: 'left' });
 
-      await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
-
       // Gets the newly opened tab.
-      const currentTabs = dicePage.context().pages();
-      const currentTab = currentTabs[currentTabs.length - 1];
+      const currentContext = dicePage.context();
+      const currentTab = await currentContext.waitForEvent('page');
+      await currentTab.waitForLoadState();
 
       const jobTitle = await currentTab
         .locator('h1.flex.flex-wrap.text-center.ml-auto')
@@ -39,7 +44,7 @@ const scrapeDice = async (webScraper: WebScraper) => {
         .innerText();
 
       // Gets the job pay tab which is always the second tab so long as there are three overview tabs on the page
-      let jobPay: string = await webScraper.getNthElementText(
+      let jobPay: string = await webScraper.checkNthElement(
         currentTab,
         'div.job-overview_detailContainer__TpXMD > div.job-overview_chipContainer__E4zOO > div > div.chip_chip__cYJs6 > span',
         1,
@@ -67,12 +72,9 @@ const scrapeDice = async (webScraper: WebScraper) => {
 
       jobInfo.push(currentJob);
 
-      await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
-
       await currentTab.close();
     }
 
-    await dicePage.waitForTimeout(webScraper.getRandomTimeInterval());
     await dicePage.close();
 
     return { jobResults: jobInfo, error: false };
