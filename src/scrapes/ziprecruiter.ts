@@ -10,7 +10,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
 
   try {
     const dialogPopUp = zipRecruiterPage.getByRole('dialog');
-    await zipRecruiterPage.getByRole('dialog').waitFor({ state: 'visible' });
+    await dialogPopUp.waitFor({ state: 'visible' });
 
     await expect(dialogPopUp).toBeVisible();
     const boundingBox = await dialogPopUp.boundingBox();
@@ -61,7 +61,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
           )
           .innerText();
 
-        let jobPay = await webScraper.getNthElementText(
+        let jobPay = await webScraper.checkNthElement(
           zipRecruiterPage,
           'div.flex.flex-col.gap-y-8 > div.flex.gap-x-12 > p.text-primary.normal-case.text-body-md',
           0,
@@ -97,7 +97,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
       if (nextPageElementType !== 'button') {
         await nextPageElement.waitFor({ state: 'visible' });
         await expect(nextPageElement).toBeVisible();
-        await nextPageElement.scrollIntoViewIfNeeded();
+        await nextPageElement.scrollIntoViewIfNeeded({ timeout: 3000 });
         await expect(nextPageElement).toBeInViewport();
         await nextPageElement.click({ button: 'left' });
         await zipRecruiterPage.waitForLoadState('networkidle');

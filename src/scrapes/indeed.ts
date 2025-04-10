@@ -30,31 +30,35 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
           .locator('div.jobsearch-InfoHeaderContainer > div > div > h2')
           .innerText();
 
-        let jobCompany = await webScraper.getElement(
+        // Checks if the job company is a hyper link, if so company name is scraped from the hyper link.
+        let jobCompany = await webScraper.confirmElementExists(
           indeedPage,
           'div.jobsearch-InfoHeaderContainer > div > div > div > span > a',
         );
 
+        // Company name is scraped from the span if not.
         if (jobCompany === null) {
-          jobCompany = await webScraper.getElement(
+          jobCompany = await webScraper.confirmElementExists(
             indeedPage,
             'div.jobsearch-InfoHeaderContainer > div > div > div > span',
           );
         }
 
-        let jobLocation = await webScraper.getElement(
+        // Checks if the job location is within an outer div
+        let jobLocation = await webScraper.confirmElementExists(
           indeedPage,
           'div.jobsearch-InfoHeaderContainer > div > div > div > div > div',
         );
 
+        // If not, the job location is nested within another div
         if (jobLocation === null) {
-          jobLocation = await webScraper.getElement(
+          jobLocation = await webScraper.confirmElementExists(
             indeedPage,
             'div.jobsearch-InfoHeaderContainer > div > div > div > div > div > div',
           );
         }
 
-        let jobPay = await webScraper.getNthElementText(
+        let jobPay = await webScraper.checkNthElement(
           indeedPage,
           'div.js-match-insights-provider-16m282m > div.js-match-insights-provider-e6s05i > div.js-match-insights-provider-kyg8or > ul > li > div > div > div > div > span',
           0,
@@ -86,7 +90,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
       const nextPageElement = indeedPage.getByTestId('pagination-page-next');
 
       if (await nextPageElement.isVisible()) {
-        await nextPageElement.scrollIntoViewIfNeeded();
+        await nextPageElement.scrollIntoViewIfNeeded({ timeout: 3000 });
         await nextPageElement.click({ button: 'left' });
         await indeedPage.waitForLoadState('networkidle');
       } else {

@@ -1,24 +1,31 @@
 import type { WebScraper } from './baseScrape';
 import type { ScrapedJobInfo } from './webScraperTypes';
+import { expect } from 'patchright/test';
 
 const scrapeMonster = async (webScraper: WebScraper) => {
   const monsterPage = await webScraper.navigateToPage(
     'https://www.monster.com/jobs/search?q=Web+Developer&where=Modesto%2C+CA&page=1&so=m.s.sh',
   );
   const jobInfo: ScrapedJobInfo[] = [];
+  const jobSearchPaneSelector = '[data-testid="JobCard"]';
 
   try {
-    await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
-
-    const jobSearchPane = await monsterPage.getByTestId('JobCard').all();
-
-    await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
+    await monsterPage.waitForSelector(jobSearchPaneSelector, { state: 'attached' });
+    await expect(monsterPage.locator(jobSearchPaneSelector).first()).toBeAttached();
+    await monsterPage
+      .locator(jobSearchPaneSelector)
+      .first()
+      .waitFor({ state: 'visible' });
+    await expect(monsterPage.locator(jobSearchPaneSelector).first()).toBeVisible();
+    const jobSearchPane = await monsterPage.locator(jobSearchPaneSelector).all();
 
     for (const job of jobSearchPane) {
-      await job.scrollIntoViewIfNeeded();
+      await expect(job).toBeAttached();
+      await job.scrollIntoViewIfNeeded({ timeout: 3000 });
+      await expect(job).toBeInViewport();
       await job.click({ button: 'left' });
 
-      await monsterPage.waitForTimeout(webScraper.getRandomTimeInterval());
+      await monsterPage.waitForLoadState('domcontentloaded');
 
       const jobTitle = await monsterPage
         .locator('h2.header-style__JobViewHeaderJobName-sc-ccb9c1ec-9')
@@ -34,7 +41,7 @@ const scrapeMonster = async (webScraper: WebScraper) => {
         .first()
         .innerText();
 
-      const jobPay = await webScraper.getElementText(
+      const jobPay = await webScraper.checkElement(
         monsterPage,
         'ul.header-style__JobViewHeaderTagsContainer-sc-ccb9c1ec-11 > li > div.indexmodern__TagComponent-sc-6pvrvp-0 > span.indexmodern__TagLabel-sc-6pvrvp-1',
       );

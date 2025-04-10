@@ -20,7 +20,7 @@ export class WebScraper {
     }
   }
 
-  async getElement(currentPage: Page, locatorTags: string): Promise<string | null> {
+  async confirmElementExists(currentPage: Page, locatorTags: string): Promise<string | null> {
     try {
       const elementText = await currentPage.locator(locatorTags).innerText({timeout: 5000});
 
@@ -30,7 +30,7 @@ export class WebScraper {
     }
   }
 
-  async getElementText(currentPage: Page, locatorTags: string) {
+  async checkElement(currentPage: Page, locatorTags: string) {
     try {
       const elementLocator = currentPage.locator(locatorTags);
 
@@ -46,7 +46,7 @@ export class WebScraper {
     }
   }
 
-  async getNthElementText(locatorOrigin: Page, locatorTags: string, nth: number) {
+  async checkNthElement(locatorOrigin: Page, locatorTags: string, nth: number) {
     try {
       const elementLocator = locatorOrigin.locator(locatorTags).nth(nth);
 
