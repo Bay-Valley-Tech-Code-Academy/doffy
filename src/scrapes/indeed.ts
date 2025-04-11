@@ -27,6 +27,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         await expect(job).toBeAttached();
         await job.scrollIntoViewIfNeeded({ timeout: 1000 });
         await expect(job).toBeInViewport();
+        await indeedPage.waitForTimeout(webScraper.getDelayTime() - 1000);
         await job.click({ button: 'left' });
 
         await indeedPage.waitForLoadState('networkidle');

@@ -1,5 +1,4 @@
 import type { Browser, Page } from 'patchright';
-import { expect } from 'patchright/test';
 
 export class WebScraper {
   _mainBrowser: Browser | null;
