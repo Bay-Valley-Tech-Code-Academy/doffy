@@ -6,8 +6,6 @@ const scrapeTest = async (webScraper: WebScraper) => {
   );
 
   try {
-    await testPage.waitForTimeout(webScraper.getRandomTimeInterval());
-
     await testPage.waitForTimeout(10000);
 
     await testPage.close();
