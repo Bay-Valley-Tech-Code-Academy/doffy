@@ -12,6 +12,7 @@ const scrapeDice = async (webScraper: WebScraper) => {
   const jobSearchCardsSelector = 'a.card-title-link';
 
   try {
+    await dicePage.waitForTimeout(webScraper.getDelayTime());
     await dicePage.waitForSelector(jobSearchCardsSelector, { state: 'attached' });
     await expect(dicePage.locator(jobSearchCardsSelector).first()).toBeAttached();
     await dicePage.waitForSelector(jobSearchCardsSelector, { state: 'visible' });
@@ -28,6 +29,8 @@ const scrapeDice = async (webScraper: WebScraper) => {
       const currentContext = dicePage.context();
       const currentTab = await currentContext.waitForEvent('page');
       await currentTab.waitForLoadState();
+
+      await dicePage.waitForTimeout(webScraper.getDelayTime());
 
       const jobTitle = await currentTab
         .locator('h1.flex.flex-wrap.text-center.ml-auto')

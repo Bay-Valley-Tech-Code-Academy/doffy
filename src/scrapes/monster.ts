@@ -10,6 +10,8 @@ const scrapeMonster = async (webScraper: WebScraper) => {
   const jobSearchPaneSelector = '[data-testid="JobCard"]';
 
   try {
+    await monsterPage.waitForTimeout(webScraper.getDelayTime());
+
     await monsterPage.waitForSelector(jobSearchPaneSelector, { state: 'attached' });
     await expect(monsterPage.locator(jobSearchPaneSelector).first()).toBeAttached();
     await monsterPage
@@ -26,6 +28,7 @@ const scrapeMonster = async (webScraper: WebScraper) => {
       await job.click({ button: 'left' });
 
       await monsterPage.waitForLoadState('domcontentloaded');
+      await monsterPage.waitForTimeout(webScraper.getDelayTime());
 
       const jobTitle = await monsterPage
         .locator('h2.header-style__JobViewHeaderJobName-sc-ccb9c1ec-9')

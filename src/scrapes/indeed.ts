@@ -9,6 +9,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
   const jobInfo: ScrapedJobInfo[] = [];
 
   try {
+    await indeedPage.waitForTimeout(webScraper.getDelayTime());
     const jobSearchPaneSelector =
       'div.job_seen_beacon > table > tbody > tr > td.resultContent';
     let isNextPageAvailable = true;
@@ -25,6 +26,7 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
         await job.click({ button: 'left' });
 
         await indeedPage.waitForLoadState('networkidle');
+        await indeedPage.waitForTimeout(webScraper.getDelayTime());
 
         const jobTitle = await indeedPage
           .locator('div.jobsearch-InfoHeaderContainer > div > div > h2')

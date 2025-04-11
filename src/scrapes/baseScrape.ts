@@ -7,6 +7,11 @@ export class WebScraper {
     this._mainBrowser = mainBrowser;
   }
 
+  getDelayTime() {
+    const baseTime = 1000;
+    return Math.round(Math.random() * 1000) + baseTime;
+  }
+
   async navigateToPage(searchURL: string) {
     try {
       const mainPage = await this._mainBrowser.newPage();
@@ -20,9 +25,14 @@ export class WebScraper {
     }
   }
 
-  async confirmElementExists(currentPage: Page, locatorTags: string): Promise<string | null> {
+  async confirmElementExists(
+    currentPage: Page,
+    locatorTags: string,
+  ): Promise<string | null> {
     try {
-      const elementText = await currentPage.locator(locatorTags).innerText({timeout: 5000});
+      const elementText = await currentPage
+        .locator(locatorTags)
+        .innerText({ timeout: 5000 });
 
       return elementText;
     } catch {
