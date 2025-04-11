@@ -1,4 +1,5 @@
 import type { Browser, Page } from 'patchright';
+import { expect } from 'patchright/test';
 
 export class WebScraper {
   _mainBrowser: Browser | null;
@@ -32,7 +33,7 @@ export class WebScraper {
     try {
       const elementText = await currentPage
         .locator(locatorTags)
-        .innerText({ timeout: 5000 });
+        .innerText({ timeout: 1000 });
 
       return elementText;
     } catch {

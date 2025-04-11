@@ -4,7 +4,7 @@ import { expect } from 'patchright/test';
 
 const scrapeIndeed = async (webScraper: WebScraper) => {
   const indeedPage = await webScraper.navigateToPage(
-    'https://www.indeed.com/jobs?q=web+developer&l=Modesto%2C+CA&from=searchOnDesktopSerp&cf-turnstile-response=0.lWFVbBUGcsMkPM17RcMOWlEQnoFnJ-aLx_RWf6VeF2Qz1KIyZl9bdmrtH48S9lmNEJ20OEyyRiXkdrfGAeCZKg5hBgRXM38GmfdRpCYTwGAx4RV3M9aPw5YiqbWvhKdVzHm9acEESHDHhGXzK4_ZAynQfxT9GdcshPbwKZJ3IwlaC5xEOfy94ruJDxHjkeyBowYB6Q72jWbQK1Y8rjaGFPIpQdrz_lvJp2LJY45KUtH2QA3tiHkqMqQ5jUPo9BmomsSIjB2HSDkm1T3tm8pAsE1fK1S61uTBIG7gRtSJnaK-lPWO50AdlWPfqzg26cl393VX2zLc6Bj53L_kA5bi5lhIOU1oxoYGJvfLcg1n_EHhrN6Pp-2ROU_sqb2Dl7y89sxSopvSDrnVVqgK_AzHgi9ZBcrOYNEYObTO7dRAkgaatvtpzvN-Bjg0qUrtlD8HGDntAq3PMdzbonze3sydmJ2tAFa8I3RxwM6q06dKfy2jJIp27lpbXga7K3e4jvQzZYfp4qXEUzmoWib8hR01LCaMxwTGjNmg3XU6vDJ4i9wUcbctF7Jct2w3cWUj_C8svvdpFdDpC0k4zE9cBvTC4SS9JzrBjNPgwgsO3O2r9qIGpxo9iDuyt-VnUUblAydZSK99m6mPWJ0vuhza3pPYhe94fX08ZI3Ht_RQlqvbEsV5AICpNH0ik8xzOUXZb9tc5uZLzuNsL-lia4vFuluGo3tHRExbf7GkHwlWNtb1rOFhM5palGjFCVjumqVwgjuyUWaNndAszkOx7D30I1MOIxlVf98g-9kvX4qWRiyQxo4.t8q0hCOHdnk1OrMGWDHlfg.c8ebefb6ad79c0740c5bcc71c57294a67f488379cced66c805b9a087d0f5f492&vjk=fa245539945789ea',
+    'https://www.indeed.com/jobs?q=web+developer&l=Modesto%2C+CA&from=searchOnDesktopSerp&cf-turnstile-response=0.lWFVbBUGcsMkPM17RcMOWlEQnoFnJ-aLx_RWf6VeF2Qz1KIyZl9bdmrtH48S9lmNEJ20OEyyRiXkdrfGAeCZKg5hBgRXM38GmfdRpCYTwGAx4RV3M9aPw5YiqbWvhKdVzHm9acEESHDHhGXzK4_ZAynQfxT9GdcshPbwKZJ3IwlaC5xEOfy94ruJDxHjkeyBowYB6Q72jWbQK1Y8rjaGFPIpQdrz_lvJp2LJY45KUtH2QA3tiHkqMqQ5jUPo9BmomsSIjB2HSDkm1T3tm8pAsE1fK1S61uTBIG7gRtSJnaK-lPWO50AdlWPfqzg26cl393VX2zLc6Bj53L_kA5bi5lhIOU1oxoYGJvfLcg1n_EHhrN6Pp-2ROU_sqb2Dl7y89sxSopvSDrnVVqgK_AzHgi9ZBcrOYNEYObTO7dRAkgaatvtpzvN-Bjg0qUrtlD8HGDntAq3PMdzbonze3sydmJ2tAFa8I3RxwM6q06dKfy2jJIp27lpbXga7K3e4jvQzZYfp4qXEUzmoWib8hR01LCaMxwTGjNmg3XU6vDJ4i9wUcbctF7Jct2w3cWUj_C8svvdpFdDpC0k4zE9cBvTC4SS9JzrBjNPgwgsO3O2r9qIGpxo9iDuyt-VnUUblAydZSK99m6mPWJ0vuhza3pPYhe94fX08ZI3Ht_RQlqvbEsV5AICpNH0ik8xzOUXZb9tc5uZLzuNsL-lia4vFuluGo3tHRExbf7GkHwlWNtb1rOFhM5palGjFCVjumqVwgjuyUWaNndAszkOx7D30I1MOIxlVf98g-9kvX4qWRiyQxo4.t8q0hCOHdnk1OrMGWDHlfg.c8ebefb6ad79c0740c5bcc71c57294a67f488379cced66c805b9a087d0f5f492&vjk=0da282af7f438c54',
   );
   const jobInfo: ScrapedJobInfo[] = [];
 
@@ -17,11 +17,15 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
     do {
       await indeedPage.waitForSelector(jobSearchPaneSelector, { state: 'attached' });
       await expect(indeedPage.locator(jobSearchPaneSelector).first()).toBeAttached();
+      await indeedPage.waitForLoadState('networkidle');
+
       const jobSearchPane = await indeedPage.locator(jobSearchPaneSelector).all();
 
       for (const job of jobSearchPane) {
         await expect(job).toBeAttached();
-        await job.scrollIntoViewIfNeeded({ timeout: 3000 });
+        await job.waitFor({ state: 'visible' });
+        await expect(job).toBeAttached();
+        await job.scrollIntoViewIfNeeded({ timeout: 1000 });
         await expect(job).toBeInViewport();
         await job.click({ button: 'left' });
 
@@ -32,33 +36,11 @@ const scrapeIndeed = async (webScraper: WebScraper) => {
           .locator('div.jobsearch-InfoHeaderContainer > div > div > h2')
           .innerText();
 
-        // Checks if the job company is a hyper link, if so company name is scraped from the hyper link.
-        let jobCompany = await webScraper.confirmElementExists(
-          indeedPage,
-          'div.jobsearch-InfoHeaderContainer > div > div > div > span > a',
-        );
+        const jobCompany = await job.locator('[data-testid="company-name"]').innerText();
 
-        // Company name is scraped from the span if not.
-        if (jobCompany === null) {
-          jobCompany = await webScraper.confirmElementExists(
-            indeedPage,
-            'div.jobsearch-InfoHeaderContainer > div > div > div > span',
-          );
-        }
-
-        // Checks if the job location is within an outer div
-        let jobLocation = await webScraper.confirmElementExists(
-          indeedPage,
-          'div.jobsearch-InfoHeaderContainer > div > div > div > div > div',
-        );
-
-        // If not, the job location is nested within another div
-        if (jobLocation === null) {
-          jobLocation = await webScraper.confirmElementExists(
-            indeedPage,
-            'div.jobsearch-InfoHeaderContainer > div > div > div > div > div > div',
-          );
-        }
+        const jobLocation = await job
+          .locator('[data-testid="text-location"]')
+          .innerText();
 
         let jobPay = await webScraper.checkNthElement(
           indeedPage,
