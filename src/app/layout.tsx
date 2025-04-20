@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
 } from '~/components/ui/dropdown-menu';
 
+import { Toaster } from '~/components/ui/sonner';
 import { GeistSans } from 'geist/font/sans';
 import { type Metadata } from 'next';
 
@@ -79,6 +80,7 @@ export default function RootLayout({
         </NavigationMenu>
 
         {children}
+        <Toaster />
       </body>
     </html>
   );
