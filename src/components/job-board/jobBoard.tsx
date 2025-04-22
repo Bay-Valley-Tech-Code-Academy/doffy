@@ -1,87 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {Card, CardTitle, CardHeader, CardContent } from '../../components/ui/card';
+import {Card, CardTitle, CardHeader, CardContent } from '../ui/card';
 import JobDropdown from '~/components/client/job-dropdown';
-
-export interface Tag {
-  id: number;
-  name: string;
-}
-
-export interface Job {
-  id: number;
-  title: string;
-  company: string;
-  location: string;
-  origin: string;
-  pay: string;
-  description: string;
-  url: string;
-  createdAt: string;
-  updatedAt: string;
-  tags: Tag[];
-}
-
-export const jobCards = [
-  {
-    id: 1,
-    title: 'Software Engineer',
-    company: 'Company A',
-    location: 'San Francisco, CA',
-    origin: 'LinkedIn',
-    pay: '$120k - $140k',
-    description: 'Work on building scalable web applications...',
-    url: 'https://companyA.com/careers/software-engineer',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    tags: [
-      { id: 1, name: 'Full-time' },
-      { id: 2, name: 'Remote' },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Frontend Developer',
-    company: 'Company B',
-    location: 'New York, NY',
-    origin: 'Indeed',
-    pay: '$90k - $110k',
-    description: 'Design and develop modern UI components...',
-    url: 'https://companyB.com/jobs/frontend-developer',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    tags: [
-      { id: 3, name: 'Contract' },
-      { id: 4, name: 'Hybrid' },
-    ],
-  },
-  {
-    id: 3,
-    title: 'Backend Engineer',
-    company: 'Company C',
-    location: 'Seattle, WA',
-    origin: 'Company Website',
-    pay: '$110k - $130k',
-    description: 'Optimize APIs and database performance...',
-    url: 'https://companyC.com/careers/backend-engineer',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    tags: [
-      { id: 5, name: 'Full-time' },
-      { id: 6, name: 'Onsite' },
-    ],
-  },
-];
+import { jobCards } from './sampleData';
+import type { Job } from '~/lib/types/job.interface';
 
 export default function JobBoard() {
-    const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+    const [selectedJob, setSelectedJob] = useState<Job | null>(null)
 
     useEffect(() => {
       setSelectedJob(jobCards[0] ?? null);
     }, []);
+    
     return (
-      <main>
         <div className="container flex h-screen flex-row gap-4 px-4 py-8">
           {/* Left column: Job Listings */}
           <div className="w-1/3 overflow-y-auto border-2 border-gray-200 p-4">
@@ -150,6 +82,5 @@ export default function JobBoard() {
             )}
           </div>
         </div>
-      </main>
     );
   }

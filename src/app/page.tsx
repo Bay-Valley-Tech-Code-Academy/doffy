@@ -1,9 +1,9 @@
-import  JobListing  from './job-listings/page'
+import  JobBoard  from '../components/job-board/jobBoard'
 
 export default function HomePage() {
   return(
     <main>
-      <JobListing />
+      <JobBoard />
     </main>
   )
 }
