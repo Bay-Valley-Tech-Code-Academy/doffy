@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   Sidebar,
   SidebarContent,
@@ -13,13 +14,31 @@ import {
 
 export type SideBarGroupObj = {
   groupName: string;
-  itemNames: string[];
+  itemNames: SideBarItemLinkObj[];
+};
+
+export type SideBarItemLinkObj = {
+  itemName: string;
+  hrefLink: string;
 };
 
 export default function ProfilePageSideBar() {
   const sideBarGroups: SideBarGroupObj[] = [
-    { groupName: 'Account', itemNames: ['Information', 'Resume'] },
-    { groupName: 'Job Matches', itemNames: ['Skills', 'Preferences', 'Hidden Jobs'] },
+    {
+      groupName: 'Account',
+      itemNames: [
+        { itemName: 'Information', hrefLink: '' },
+        { itemName: 'Resume', hrefLink: 'resume' },
+      ],
+    },
+    {
+      groupName: 'Job Matches',
+      itemNames: [
+        { itemName: 'Skills', hrefLink: 'skills' },
+        { itemName: 'Preferences', hrefLink: 'preferences' },
+        { itemName: 'Hidden Jobs', hrefLink: 'hidden-jobs' },
+      ],
+    },
   ];
 
   // Renders the sidebar groups and populates all group items.
@@ -30,10 +49,17 @@ export default function ProfilePageSideBar() {
           <SidebarGroupLabel>{groupName}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {itemNames.map((item) => {
+              {itemNames.map(({ itemName, hrefLink }) => {
                 return (
-                  <SidebarMenuItem key={item}>
-                    <SidebarMenuButton>{item}</SidebarMenuButton>
+                  <SidebarMenuItem key={itemName}>
+                    <Link
+                      href={{
+                        pathname: `/profile/${hrefLink}`,
+                        // slashes: true
+                      }}
+                    >
+                      <SidebarMenuButton>{itemName}</SidebarMenuButton>
+                    </Link>
                   </SidebarMenuItem>
                 );
               })}
