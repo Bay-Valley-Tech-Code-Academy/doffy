@@ -4,9 +4,9 @@ import ProfilePageSideBar from './components/profile-page-sidebar';
 export default function ProfilePageLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="h-[calc(100dvh-65px)] w-full">
-      <SidebarProvider className='h-full min-h-[calc(100dvh-65px)]' defaultOpen>
+      <SidebarProvider className="h-full min-h-[calc(100dvh-65px)]" defaultOpen>
         <ProfilePageSideBar />
-        <div className='w-full'>
+        <div className="w-full">
           <SidebarTrigger />
           {children}
         </div>
