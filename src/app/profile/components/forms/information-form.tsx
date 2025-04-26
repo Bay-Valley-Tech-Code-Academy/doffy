@@ -6,7 +6,7 @@ import {
   type AllFormValues,
 } from '../../utils/form-schemas';
 import BaseForm from '../base-form';
-import type { FormControlObj } from '../../../../lib/types';
+import type { FormControlObj } from '../../utils/types';
 export default function InformationForm() {
   const formControls: FormControlObj[] = [
     {
