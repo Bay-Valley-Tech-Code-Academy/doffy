@@ -19,6 +19,16 @@ export default function InformationForm() {
       controlPlaceHolder: 'Enter email...',
       controlDescription: 'Personal Email',
     },
+    {
+      controlName: 'Phone Number',
+      controlPlaceHolder: 'Enter phone number...',
+      controlDescription: 'Personal Phone Number',
+    },
+    {
+      controlName: 'Address',
+      controlPlaceHolder: 'Enter your residential address...',
+      controlDescription: 'Residential Address',
+    },
   ];
 
   function handleSubmit(values: AllFormValues) {
