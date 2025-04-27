@@ -38,7 +38,7 @@ export default function BaseForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submitFunction)}>
-        {formControls.map(({ controlName, controlPlaceHolder, controlDescription }) => (
+        {formControls.map(({ controlName, controlPlaceHolder, controlDescription, controlType }) => (
           <FormField
             control={form.control}
             key={controlName}
@@ -47,7 +47,7 @@ export default function BaseForm({
               <FormItem>
                 <FormLabel>{controlName}</FormLabel>
                 <FormControl>
-                  <Input placeholder={controlPlaceHolder} {...field} />
+                  <Input placeholder={controlPlaceHolder} type={controlType} {...field} />
                 </FormControl>
                 <FormDescription>{controlDescription}</FormDescription>
                 <FormMessage />
