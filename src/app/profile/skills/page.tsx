@@ -1,3 +1,9 @@
+import CardDisplay from "../components/card-display";
+
 export default function SkillsProfilePage() {
-  return <h2 className="self-start text-4xl font-extrabold sm:text-5xl">Skills</h2>;
+  return (
+    <CardDisplay displayTitle="Skills">
+      <h2>Temp</h2>
+    </CardDisplay>
+  );
 }
