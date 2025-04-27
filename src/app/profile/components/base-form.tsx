@@ -38,18 +38,31 @@ export default function BaseForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submitFunction)}>
-        {formControls.map(({ controlName, controlPlaceHolder, controlDescription, controlType }) => (
+        {formControls.map((formControl) => (
           <FormField
             control={form.control}
-            key={controlName}
-            name={controlName.toLowerCase()}
+            key={formControl.controlName}
+            name={formControl.controlName.toLowerCase()}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{controlName}</FormLabel>
+                <FormLabel>{formControl.controlName}</FormLabel>
                 <FormControl>
-                  <Input placeholder={controlPlaceHolder} type={controlType} {...field} />
+                  {formControl.controlType === 'file' ? (
+                    <Input
+                      placeholder={formControl.controlPlaceHolder}
+                      type="file"
+                      accept={formControl.possibleFiles}
+                      {...field}
+                    />
+                  ) : (
+                    <Input
+                      placeholder={formControl.controlPlaceHolder}
+                      type={formControl.controlType}
+                      {...field}
+                    />
+                  )}
                 </FormControl>
-                <FormDescription>{controlDescription}</FormDescription>
+                <FormDescription>{formControl.controlDescription}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

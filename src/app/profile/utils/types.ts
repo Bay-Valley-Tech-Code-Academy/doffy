@@ -3,4 +3,5 @@ export type FormControlObj = {
   controlPlaceHolder: string;
   controlDescription: string;
   controlType: 'text' | "email" | "tel" | "file";
+  possibleFiles?: "application/pdf"; 
 };
