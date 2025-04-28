@@ -1,5 +1,3 @@
-// ToDo:
-// Settings to add - Name, Email, Phone Number, Address, Resume, Skills, Job Preferences
 import CardDisplay from './components/card-display';
 import InformationForm from './components/forms/information-form';
 

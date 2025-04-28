@@ -2,7 +2,6 @@ import Link from 'next/link';
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -29,6 +28,7 @@ export default function ProfilePageSideBar() {
       itemNames: [
         { itemName: 'Information', hrefLink: '' },
         { itemName: 'Resume', hrefLink: 'resume' },
+        { itemName: 'Certifications', hrefLink: 'certifications' },
       ],
     },
     {
