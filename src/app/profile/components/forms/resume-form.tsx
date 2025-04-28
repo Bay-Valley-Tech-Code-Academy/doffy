@@ -21,8 +21,8 @@ export default function ResumeForm() {
 
   async function handleSubmit(values: AllFormValues) {
     if (values.resume) {
-      const file = await values.resume.arrayBuffer()
-      console.log(file)
+      const file = await values.resume.arrayBuffer();
+      console.log(file);
     }
   }
 

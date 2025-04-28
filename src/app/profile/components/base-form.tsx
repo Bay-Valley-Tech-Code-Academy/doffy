@@ -28,7 +28,7 @@ export default function BaseForm({
   submitFunction,
   formSchema,
   defaultFormValues,
-  formControls
+  formControls,
 }: BaseFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,7 +53,7 @@ export default function BaseForm({
                       type="file"
                       accept={formControl.possibleFiles}
                       onChange={(event) => {
-                        field.onChange(event.target.files?.[0])
+                        field.onChange(event.target.files?.[0]);
                       }}
                     />
                   ) : (

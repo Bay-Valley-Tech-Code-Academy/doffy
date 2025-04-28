@@ -25,15 +25,12 @@ export const resumeFormSchema = z.object({
   resume: z
     .instanceof(File)
     .refine((file) => file, 'Select A File!')
-    .refine((file) => file.size < 1024*1024*5, `Max file size is 5MB!`)
-    .refine(
-      (file) => file.type === "application/pdf",
-      'Only pdf files are accepted!',
-    ),
+    .refine((file) => file.size < 1024 * 1024 * 5, `Max file size is 5MB!`)
+    .refine((file) => file.type === 'application/pdf', 'Only pdf files are accepted!'),
 });
 
 export const resumeFormDefaultValues = {
-  resume: new File([], ""),
+  resume: new File([], ''),
 };
 
 export type AllFormValues = {
