@@ -12,15 +12,18 @@ export default function ResumeForm() {
   const formControls: FormControlObj[] = [
     {
       controlName: 'Resume',
-      controlPlaceHolder: '',
+      controlPlaceHolder: 'Resume',
       controlDescription: 'Upload Your Resume',
       controlType: 'file',
       possibleFiles: 'application/pdf',
     },
   ];
 
-  function handleSubmit(values: AllFormValues) {
-    console.log(values);
+  async function handleSubmit(values: AllFormValues) {
+    if (values.resume) {
+      const file = await values.resume.arrayBuffer()
+      console.log(file)
+    }
   }
 
   return (

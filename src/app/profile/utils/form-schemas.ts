@@ -23,18 +23,17 @@ export const informationFormDefaultValues = {
 
 export const resumeFormSchema = z.object({
   resume: z
-    .custom<File>()
-    .refine((file) => file.type !== 'application/pdf', {
-      message: 'Invalid document type.',
-    })
-    // Checks that the file is less than 10 MB
-    // .refine((file) => file.size > 0, {
-    //   message: 'File Too Large',
-    // })
+    .instanceof(File)
+    .refine((file) => file, 'Select A File!')
+    .refine((file) => file.size < 1024*1024*5, `Max file size is 5MB!`)
+    .refine(
+      (file) => file.type === "application/pdf",
+      'Only pdf files are accepted!',
+    ),
 });
 
-export const resumeFormDefaultValues: { resume: '' } = {
-  resume: '',
+export const resumeFormDefaultValues = {
+  resume: new File([], ""),
 };
 
 export type AllFormValues = {
@@ -42,5 +41,5 @@ export type AllFormValues = {
   email?: string;
   'phone number'?: string;
   address?: string;
-  resume?: File | '';
+  resume?: File;
 };
