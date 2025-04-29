@@ -62,14 +62,22 @@ export default function CertificationForm({ fileInputs }: CertificationFormProps
     }
 
     async function handleSubmit(values: AllFormValues) {
-        const fileArray: Record<string, number[]> = {};
+        const fileArray: Record<string, ArrayBuffer> = {};
         for (let num = 1; num <= fileInputs; num++) {
-            if (values[`Certification #${num}`.toLocaleLowerCase()] && values[`Certification #${num}`.toLocaleLowerCase()] instanceof File) {
-                const arrayBuffer = await values[`Certification #${num}`.toLocaleLowerCase()].arrayBuffer();
-                console.log(arrayBuffer)
-            }   
+          const currentFileName = values[`Certification #${num} Title`.toLocaleLowerCase()];
+          const currentFile = values[`Certification #${num}`.toLocaleLowerCase()];
+          if (
+            currentFile &&
+            currentFile instanceof File &&
+            currentFileName &&
+            typeof currentFileName === 'string'
+          ) {
+            const arrayBuffer = await currentFile.arrayBuffer();
+            fileArray[currentFileName] = arrayBuffer;
+          }
         }
-    }
+        console.log(fileArray);
+      }
 
   return (
     <BaseForm submitFunction={handleSubmit} formSchema={certificationFormSchema} defaultFormValues={certificationFormDefaultValues} formControls={formControls} />
