@@ -36,7 +36,7 @@ export default function BaseForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitFunction)}>
+      <form onSubmit={form.handleSubmit(submitFunction)} className="flex flex-col gap-5">
         {formControls.map((formControl) => (
           <FormField
             control={form.control}

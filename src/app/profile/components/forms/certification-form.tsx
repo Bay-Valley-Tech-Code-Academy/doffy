@@ -17,69 +17,89 @@ import BaseForm from '../base-form';
 // Once the user submits the form and has successfully populated all inputs, the formSubmission function will pull the user's inputs, the text input will be used to designate the certification's name and the file object will be turned into an arrayBuffer before being stored.
 
 interface CertificationFormProps {
-    fileInputs: number;
+  fileInputs: number;
 }
 
 export default function CertificationForm({ fileInputs }: CertificationFormProps) {
-    const formControls = []
+  const formControls = [];
 
+  for (let num = 1; num <= fileInputs; num++) {
+    const newTextInput: FormControlObj = {
+      controlName: `Certification #${num} Title`,
+      controlPlaceHolder: 'Enter Certification Name',
+      controlDescription: `Name of Certification #${num}`,
+      controlType: 'text',
+    };
+    const newFileInput: FormControlObj = {
+      controlName: `Certification #${num}`,
+      controlPlaceHolder: 'Select Certification',
+      controlDescription: `Upload Certification #${num}`,
+      controlType: 'file',
+      possibleFiles: 'application/pdf',
+    };
+    formControls.push(newTextInput, newFileInput);
+  }
+
+  const formSchemaObj: Record<
+    string,
+    | z.ZodString
+    | z.ZodEffects<
+        z.ZodEffects<
+          z.ZodEffects<z.ZodType<File, z.ZodTypeDef, File>, File, File>,
+          File,
+          File
+        >,
+        File,
+        File
+      >
+  > = {};
+
+  for (let num = 1; num <= fileInputs; num++) {
+    formSchemaObj[`Certification #${num} Title`.toLocaleLowerCase()] = z
+      .string()
+      .min(1, { message: 'Title cannot be blank!' });
+    formSchemaObj[`Certification #${num}`.toLocaleLowerCase()] = z
+      .instanceof(File)
+      .refine((file) => file, 'Select A File!')
+      .refine((file) => file.size < 1024 * 1024 * 5, `Max file size is 5MB!`)
+      .refine((file) => file.type === 'application/pdf', 'Only pdf files are accepted!');
+  }
+
+  const certificationFormSchema = z.object(formSchemaObj);
+
+  const certificationFormDefaultValues: AllFormValues = {};
+
+  for (let num = 1; num <= fileInputs; num++) {
+    certificationFormDefaultValues[`Certification #${num} Title`.toLocaleLowerCase()] =
+      '';
+    certificationFormDefaultValues[`Certification #${num}`.toLocaleLowerCase()] =
+      new File([], '');
+  }
+
+  async function handleSubmit(values: AllFormValues) {
+    const fileArray: Record<string, ArrayBuffer> = {};
     for (let num = 1; num <= fileInputs; num++) {
-       const newTextInput: FormControlObj = {
-        controlName: `Certification #${num} Title`,
-        controlPlaceHolder: "Enter Certification Name",
-        controlDescription: `Name of Certification #${num}`,
-        controlType: "text"
-       }
-       const newFileInput: FormControlObj = {
-        controlName: `Certification #${num}`,
-        controlPlaceHolder: "Select Certification",
-        controlDescription: `Upload Certification #${num}`,
-        controlType: "file",
-        possibleFiles: "application/pdf"
-       }
-       formControls.push(newTextInput, newFileInput)
-    }
-
-    const formSchemaObj: Record<string, z.ZodString | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodType<File, z.ZodTypeDef, File>, File, File>, File, File>, File, File>> = {};
-
-    for (let num = 1; num <= fileInputs; num++) {
-        formSchemaObj[`Certification #${num} Title`.toLocaleLowerCase()] = z.string().min(1, {message: "Title cannot be blank!"})
-        formSchemaObj[`Certification #${num}`.toLocaleLowerCase()] = z
-        .instanceof(File)
-        .refine((file) => file, 'Select A File!')
-        .refine((file) => file.size < 1024 * 1024 * 5, `Max file size is 5MB!`)
-        .refine((file) => file.type === 'application/pdf', 'Only pdf files are accepted!')
-    }
-
-    
-    const certificationFormSchema = z.object(formSchemaObj);
-    
-    const certificationFormDefaultValues: AllFormValues = {}
-    
-    for (let num = 1; num <= fileInputs; num++) {
-        certificationFormDefaultValues[`Certification #${num} Title`.toLocaleLowerCase()] = '';
-        certificationFormDefaultValues[`Certification #${num}`.toLocaleLowerCase()] = new File([], '')
-    }
-
-    async function handleSubmit(values: AllFormValues) {
-        const fileArray: Record<string, ArrayBuffer> = {};
-        for (let num = 1; num <= fileInputs; num++) {
-          const currentFileName = values[`Certification #${num} Title`.toLocaleLowerCase()];
-          const currentFile = values[`Certification #${num}`.toLocaleLowerCase()];
-          if (
-            currentFile &&
-            currentFile instanceof File &&
-            currentFileName &&
-            typeof currentFileName === 'string'
-          ) {
-            const arrayBuffer = await currentFile.arrayBuffer();
-            fileArray[currentFileName] = arrayBuffer;
-          }
-        }
-        console.log(fileArray);
+      const currentFileName = values[`Certification #${num} Title`.toLocaleLowerCase()];
+      const currentFile = values[`Certification #${num}`.toLocaleLowerCase()];
+      if (
+        currentFile &&
+        currentFile instanceof File &&
+        currentFileName &&
+        typeof currentFileName === 'string'
+      ) {
+        const arrayBuffer = await currentFile.arrayBuffer();
+        fileArray[currentFileName] = arrayBuffer;
       }
+    }
+    console.log(fileArray);
+  }
 
   return (
-    <BaseForm submitFunction={handleSubmit} formSchema={certificationFormSchema} defaultFormValues={certificationFormDefaultValues} formControls={formControls} />
+    <BaseForm
+      submitFunction={handleSubmit}
+      formSchema={certificationFormSchema}
+      defaultFormValues={certificationFormDefaultValues}
+      formControls={formControls}
+    />
   );
 }

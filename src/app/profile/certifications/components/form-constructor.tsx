@@ -3,6 +3,7 @@ import { type ChangeEvent, useCallback, useState } from 'react';
 import { Input } from '~/components/ui/input';
 import CertificationForm from '../../components/forms/certification-form';
 import { Button } from '~/components/ui/button';
+import { Label } from '~/components/ui/label';
 
 export default function FormConstructor() {
   const [newFileUploadNum, setNewFileUploadNum] = useState<number>(1);
@@ -25,15 +26,26 @@ export default function FormConstructor() {
   );
 
   return (
-    <div>
-      <Input
-        type="number"
-        value={newFileUploadNum}
-        onChange={handleChange}
-        min={1}
-        max={5}
-      />
-      <Button onClick={handleClick}>Update</Button>
+    <div className="flex flex-col gap-5">
+      <div className="flex items-center gap-2">
+        <Label htmlFor="fileUploadCount" className="h-8 text-lg">
+          Input Count:
+        </Label>
+        <Input
+          className="h-8 w-fit"
+          id="fileUploadCount"
+          type="number"
+          value={newFileUploadNum}
+          onChange={handleChange}
+          min={1}
+          max={5}
+        />
+        <Button onClick={handleClick} className="h-8">
+          Update
+        </Button>
+      </div>
+
+      <hr className="" />
 
       <RenderForm />
     </div>
