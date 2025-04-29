@@ -1,9 +1,10 @@
 import CardDisplay from "../components/card-display";
+import FormConstructor from "./components/form-constructor";
 
 export default function CertificationsPage() {
     return (
         <CardDisplay displayTitle="Credentials">
-            <h2>temp</h2>
+            <FormConstructor />
         </CardDisplay>
     )
 }

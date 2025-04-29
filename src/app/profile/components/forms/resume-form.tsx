@@ -23,7 +23,7 @@ export default function ResumeForm() {
       .refine((file) => file.type === 'application/pdf', 'Only pdf files are accepted!'),
   });
 
-  const resumeFormDefaultValues = {
+  const resumeFormDefaultValues: AllFormValues = {
     resume: new File([], ''),
   };
 
