@@ -33,10 +33,4 @@ export const resumeFormDefaultValues = {
   resume: new File([], ''),
 };
 
-export type AllFormValues = {
-  username?: string;
-  email?: string;
-  'phone number'?: string;
-  address?: string;
-  resume?: File;
-};
+export type AllFormValues = Record<string, File | string | number>;

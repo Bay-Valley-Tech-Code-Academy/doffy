@@ -14,8 +14,8 @@ import {
 } from '~/components/ui/form';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import type { AllFormValues } from '../utils/form-schemas';
 import type { FormControlObj } from '../utils/types';
+import type { AllFormValues } from '../utils/form-schemas';
 
 interface BaseFormProps {
   submitFunction: (values: AllFormValues) => void;
