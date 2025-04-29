@@ -5,3 +5,5 @@ export type FormControlObj = {
   controlType: 'text' | 'email' | 'tel' | 'file';
   possibleFiles?: 'application/pdf';
 };
+
+export type AllFormValues = Record<string, File | string | number>;

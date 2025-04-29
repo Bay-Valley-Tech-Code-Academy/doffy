@@ -1,11 +1,7 @@
 'use client';
 
-import {
-  type AllFormValues,
-  resumeFormDefaultValues,
-  resumeFormSchema,
-} from '../../utils/form-schemas';
-import type { FormControlObj } from '../../utils/types';
+import { z } from 'zod';
+import type { AllFormValues, FormControlObj } from '../../utils/types';
 import BaseForm from '../base-form';
 
 export default function ResumeForm() {
@@ -18,6 +14,18 @@ export default function ResumeForm() {
       possibleFiles: 'application/pdf',
     },
   ];
+
+  const resumeFormSchema = z.object({
+    resume: z
+      .instanceof(File)
+      .refine((file) => file, 'Select A File!')
+      .refine((file) => file.size < 1024 * 1024 * 5, `Max file size is 5MB!`)
+      .refine((file) => file.type === 'application/pdf', 'Only pdf files are accepted!'),
+  });
+
+  const resumeFormDefaultValues = {
+    resume: new File([], ''),
+  };
 
   async function handleSubmit(values: AllFormValues) {
     if (values.resume && values.resume instanceof File) {
