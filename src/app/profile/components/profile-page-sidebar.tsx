@@ -31,14 +31,6 @@ export default function ProfilePageSideBar() {
         { itemName: 'Certifications', hrefLink: 'certifications' },
       ],
     },
-    {
-      groupName: 'Job Matches',
-      itemNames: [
-        { itemName: 'Skills', hrefLink: 'skills' },
-        { itemName: 'Preferences', hrefLink: 'preferences' },
-        { itemName: 'Hidden Jobs', hrefLink: 'hidden-jobs' },
-      ],
-    },
   ];
 
   // Renders the sidebar groups and populates all group items.
