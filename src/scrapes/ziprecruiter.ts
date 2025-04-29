@@ -17,18 +17,19 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
     const boundingBox = await dialogPopUp.boundingBox();
     await zipRecruiterPage.mouse.click(boundingBox.x - 100, boundingBox.y);
     const jobSearchPaneSelector =
-      'div.job_results_two_pane.flex.flex-col.items-center.overflow-y-scroll.overflow-x-hidden.divide-y-1.divide-divider.max-h-fit.w-lvw > div.job_result_two_pane.relative.h-full';
+      'div.job_results_two_pane.flex.flex-col.items-center.overflow-y-scroll.overflow-x-hidden';
     let isNextPageAvailable = true;
 
     do {
       await zipRecruiterPage.waitForSelector(jobSearchPaneSelector, {
         state: 'attached',
+        
       });
 
       await expect(
-        zipRecruiterPage.locator(jobSearchPaneSelector).first(),
+        zipRecruiterPage.locator(jobSearchPaneSelector),
       ).toBeAttached();
-      const jobSearchPane = await zipRecruiterPage.locator(jobSearchPaneSelector).all();
+      const jobSearchPane = await zipRecruiterPage.locator("div.job_result_two_pane.relative.h-full.group").all();
 
       for (const job of jobSearchPane) {
         await expect(job).toBeAttached();
@@ -42,7 +43,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
 
         await job.locator(jobElementSelector).click();
         
-        await zipRecruiterPage.waitForLoadState('networkidle');
+        await zipRecruiterPage.waitForLoadState('load');
         await zipRecruiterPage.waitForTimeout(webScraper.getDelayTime());
 
         const jobTitle = await zipRecruiterPage
@@ -53,7 +54,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
 
         const jobCompany = await zipRecruiterPage
           .locator(
-            'div.grid > div.grid.gap-y-8 > a.text-primary.normal-case.rounded-2.outline-none.w-fit.gap-4.items-center',
+            'div.grid > div.grid.gap-y-8 > a.w-fit.gap-8.items-center.group.border-solid.border.rounded-2.border-transparent.flex',
           )
           .innerText();
 
@@ -74,7 +75,7 @@ const scrapeZipRecruiter = async (webScraper: WebScraper) => {
 
         const jobDescription = await zipRecruiterPage
           .locator(
-            'div.flex.flex-col.gap-y-48 > div.relative.flex.flex-col > div.text-primary.whitespace-pre-line.break-words',
+            'div.flex.w-full.flex-col.overflow-y-auto.overflow-x-hidden.px-72.py-48 > div.flex.flex-col > div.relative.flex.flex-col > div.text-primary.whitespace-pre-line.break-words',
           )
           .allInnerTexts();
 

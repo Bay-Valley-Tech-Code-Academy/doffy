@@ -38,7 +38,7 @@ export const GET = async () => {
           hasErrorOccurred = true;
           scrapeAttempts++;
         }
-      } while (hasErrorOccurred && scrapeAttempts < 3);
+      } while (hasErrorOccurred && scrapeAttempts < 1);
 
       scraperResultsArray.push(scraperResults.jobResults);
     }
