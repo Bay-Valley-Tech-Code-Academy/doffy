@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { LogOut, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { Separator } from '~/components/ui/separator';
 import { SignOutButton } from '~/components/client/signout-button';
@@ -23,7 +22,7 @@ export default function SettingsPage() {
         <div className="flex flex-1 flex-col justify-center p-4">
           <nav className="text-[2.25rem] font-bold leading-[1.25]">
             <h1>Settings</h1>
-            {/* TODO: Substitute Link tag here but dont know how routing works */}
+            {/* TODO: Substitute Link tag here but don't know how routing works */}
             <div className="flex flex-col items-center justify-center">
               {/* I want this to be an unordered list because this will be the sidebar and well add more things to it along the way */}
               <ul>

@@ -1,16 +1,38 @@
 'use client';
 
+import { useState } from 'react';
 import { EllipsisVertical } from 'lucide-react';
+import { toast } from 'sonner';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { useState } from 'react';
 
 export default function JobDropdown() {
   const [saved, setSaved] = useState(false);
+
+  const handleSave = () => {
+    const newSavedState = !saved;
+    setSaved(newSavedState);
+
+    if (newSavedState) {
+      toast('Job Saved', {
+        description: 'You have successfully saved this job listing.',
+        action: {
+          label: 'Undo',
+          onClick: () => setSaved(false),
+        },
+      });
+    }
+  };
+
+  const handleNotInterested = () => {
+    toast('Marked as Not Interested', {
+      description: 'You will no longer see this job listing.',
+    });
+  };
 
   return (
     <DropdownMenu>
@@ -20,10 +42,10 @@ export default function JobDropdown() {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
-        <DropdownMenuItem onClick={() => setSaved(!saved)}>
+        <DropdownMenuItem onClick={handleSave}>
           {saved ? 'Saved ✔' : 'Save Job'}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => console.log('Not Interested')}>
+        <DropdownMenuItem onClick={handleNotInterested}>
           Not Interested
         </DropdownMenuItem>
       </DropdownMenuContent>
