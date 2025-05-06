@@ -9,14 +9,14 @@ export default function FormConstructor() {
   const [newFileUploadNum, setNewFileUploadNum] = useState<number>(1);
   const [currentFileUploadNum, setCurrentFileUploadNum] = useState<number>(1);
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+  function changeFileUploadNum(e: ChangeEvent<HTMLInputElement>) {
     let newNumber = parseInt(e.target.value);
     if (newNumber <= 0) newNumber = 1;
     if (newNumber > 5) newNumber = 5;
     setNewFileUploadNum(newNumber);
   }
 
-  function handleClick() {
+  function updateFileUploadNum() {
     setCurrentFileUploadNum(newFileUploadNum);
   }
 
@@ -36,11 +36,11 @@ export default function FormConstructor() {
           id="fileUploadCount"
           type="number"
           value={newFileUploadNum}
-          onChange={handleChange}
+          onChange={changeFileUploadNum}
           min={1}
           max={5}
         />
-        <Button onClick={handleClick} className="h-8">
+        <Button onClick={updateFileUploadNum} className="h-8">
           Update
         </Button>
       </div>
