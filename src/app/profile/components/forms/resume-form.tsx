@@ -27,7 +27,7 @@ export default function ResumeForm() {
     resume: new File([], ''),
   };
 
-  async function handleSubmit(values: AllFormValues) {
+  async function handleResumeFormSubmission(values: AllFormValues) {
     if (values.resume && values.resume instanceof File) {
       const file = await values.resume.arrayBuffer();
       console.log(file);
@@ -36,7 +36,7 @@ export default function ResumeForm() {
 
   return (
     <BaseForm
-      submitFunction={handleSubmit}
+      submitFunction={handleResumeFormSubmission}
       formSchema={resumeFormSchema}
       defaultFormValues={resumeFormDefaultValues}
       formControls={formControls}

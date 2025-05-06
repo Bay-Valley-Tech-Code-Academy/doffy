@@ -76,7 +76,7 @@ export default function CertificationForm({ fileInputs }: CertificationFormProps
       new File([], '');
   }
 
-  async function handleSubmit(values: AllFormValues) {
+  async function handleCertificationFormSubmission(values: AllFormValues) {
     const fileArray: Record<string, ArrayBuffer> = {};
     for (let num = 1; num <= fileInputs; num++) {
       const currentFileName = values[`Certification #${num} Title`.toLocaleLowerCase()];
@@ -96,7 +96,7 @@ export default function CertificationForm({ fileInputs }: CertificationFormProps
 
   return (
     <BaseForm
-      submitFunction={handleSubmit}
+      submitFunction={handleCertificationFormSubmission}
       formSchema={certificationFormSchema}
       defaultFormValues={certificationFormDefaultValues}
       formControls={formControls}

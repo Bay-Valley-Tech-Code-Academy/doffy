@@ -51,13 +51,13 @@ export default function InformationForm() {
     email: '',
   };
 
-  function handleSubmit(values: AllFormValues) {
+  function handleInformationFormSubmission(values: AllFormValues) {
     console.log(values);
   }
 
   return (
     <BaseForm
-      submitFunction={handleSubmit}
+      submitFunction={handleInformationFormSubmission}
       formSchema={informationFormSchema}
       defaultFormValues={informationFormDefaultValues}
       formControls={formControls}
