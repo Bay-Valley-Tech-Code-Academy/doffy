@@ -31,7 +31,6 @@ export default function InformationForm() {
     },
   ];
 
-  // Temporary phone number validation, checks for 10 digits.
   const phoneNumberPattern = /\d{10}/g;
 
   const informationFormSchema = z.object({

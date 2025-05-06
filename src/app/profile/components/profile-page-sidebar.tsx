@@ -33,7 +33,6 @@ export default function ProfilePageSideBar() {
     },
   ];
 
-  // Renders the sidebar groups and populates all group items.
   const RenderMenuGroup = () => {
     return sideBarGroups.map(({ groupName, itemNames }) => {
       return (
@@ -63,7 +62,6 @@ export default function ProfilePageSideBar() {
   };
 
   return (
-    // Inset by the height of the navbar
     <Sidebar className="inset-y-[55px] border-t-2">
       <SidebarContent>
         <SidebarHeader>Profile</SidebarHeader>
