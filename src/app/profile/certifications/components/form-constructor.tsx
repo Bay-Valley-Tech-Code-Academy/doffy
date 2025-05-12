@@ -1,5 +1,5 @@
 'use client';
-import { type ChangeEvent, useCallback, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { Input } from '~/components/ui/input';
 import CertificationForm from '../../components/forms/certification-form';
 import { Button } from '~/components/ui/button';
@@ -19,11 +19,6 @@ export default function FormConstructor() {
   function updateFileUploadNum() {
     setCurrentFileUploadNum(newFileUploadNum);
   }
-
-  const RenderForm = useCallback(
-    () => <CertificationForm fileInputs={currentFileUploadNum} />,
-    [currentFileUploadNum],
-  );
 
   return (
     <div className="flex flex-col gap-5">
@@ -47,7 +42,7 @@ export default function FormConstructor() {
 
       <hr className="" />
 
-      <RenderForm />
+      <CertificationForm fileInputs={currentFileUploadNum} />
     </div>
   );
 }
