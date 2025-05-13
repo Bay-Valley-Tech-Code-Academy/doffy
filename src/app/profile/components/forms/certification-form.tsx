@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import type { AllFormValues, FormControlObj } from '../../utils/types';
 import BaseForm from '../base-form';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
 // Goal:
 // Display a default form, this form will have 1 potential file input and a text input to define the name of the certification,
@@ -103,16 +103,12 @@ export default function CertificationForm({ fileInputs }: CertificationFormProps
     console.log(fileArray);
   }
 
-  const RenderForm = useCallback(() => {
-    return (
-      <BaseForm
-        submitFunction={handleCertificationFormSubmission}
-        formSchema={certificationFormSchema}
-        defaultFormValues={certificationFormDefaultValues}
-        formControls={formControls}
-      />
-    );
-  }, [fileInputs]);
-
-  return <RenderForm />;
+  return (
+    <BaseForm
+      submitFunction={handleCertificationFormSubmission}
+      formSchema={certificationFormSchema}
+      defaultFormValues={certificationFormDefaultValues}
+      formControls={formControls}
+    />
+  );
 }
