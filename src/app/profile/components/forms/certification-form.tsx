@@ -87,6 +87,18 @@ export default function CertificationForm({ fileInputs }: CertificationFormProps
 
   async function handleCertificationFormSubmission(values: AllFormValues) {
     const fileArray: Record<string, ArrayBuffer> = {};
+
+    const formTextValues = Object.values(values).filter(
+      (value) => typeof value === 'string',
+    );
+
+    for (let num = 0; num < formTextValues.length; num++) {
+      if (formTextValues.lastIndexOf(formTextValues[num]) !== num) {
+        alert('Certification titles must be different!');
+        return;
+      }
+    }
+
     for (let num = 1; num <= fileInputs; num++) {
       const currentFileName = values[`Certification #${num} Title`.toLocaleLowerCase()];
       const currentFile = values[`Certification #${num}`.toLocaleLowerCase()];
