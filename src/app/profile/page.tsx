@@ -1,9 +1,10 @@
-export default function ProfilePage() {
+import CardDisplay from './components/card-display';
+import InformationForm from './components/forms/information-form';
+
+export default function InformationProfilePage() {
   return (
-    <main>
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h5>Profile page!</h5>
-      </div>
-    </main>
+    <CardDisplay displayTitle="Information">
+      <InformationForm />
+    </CardDisplay>
   );
 }
